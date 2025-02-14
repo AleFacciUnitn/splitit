@@ -1,5 +1,5 @@
 export interface IUseCase<IParams,T> {
-  async execute(params): Promise<T>;
+  execute(params: IParams): Promise<T>;
 }
 
 export interface IParams {}

@@ -1,19 +1,18 @@
 import { NextResponse } from "next/server";
-import { ExpenseRepositoryImpl } from "../../Data/Repositories/ExpenseRepositoryImpl.ts";
-import { Expense } from "../../Domain/Models/Expense.ts";
-import { GetExpensesUseCase } from "../../Domain/UseCases/GetExpensesUseCase.ts";
-import { CreateExpenseUseCase, CreateExpenseParams } from "../../Domain/UseCases/CreateExpenseUseCase.ts";
-
-const expenseRepository = ExpenseRepositoryImpl.getInstance();
+import { ExpenseRepositoryImpl } from "../../Data/Repositories/ExpenseRepositoryImpl";
+import { Expense } from "../../Domain/Models/Expense";
+import { GetExpensesUseCase } from "../../Domain/UseCases/GetExpensesUseCase";
+import { CreateExpenseUseCase, CreateExpenseParams } from "../../Domain/UseCases/CreateExpenseUseCase";
+import { NoParams } from "../../Domain/UseCases/IUseCase";
 
 export async function GET() {
-  const getExpensesUseCase = new GetExpensesUseCase(expenseRepository);
-  const expenses = await getExpensesUseCase.execute();
+  const getExpensesUseCase = new GetExpensesUseCase(ExpenseRepositoryImpl.getInstance());
+  const expenses = await getExpensesUseCase.execute(new NoParams());
   return NextResponse.json(expenses, { status: 200 });
 }
 
 export async function POST(req: Request) {
-  const createExpenseUseCase = new CreateExpenseUseCase(expenseRepository);
+  const createExpenseUseCase = new CreateExpenseUseCase(ExpenseRepositoryImpl.getInstance());
   const { id, date, description, category, amount} = await req.json();
   const newExpense = new Expense(id,date,description,category,amount);
   const createdExpense = await createExpenseUseCase.execute(new CreateExpenseParams(newExpense));

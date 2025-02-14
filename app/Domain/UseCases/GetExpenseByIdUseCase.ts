@@ -1,12 +1,12 @@
-import { IExpenseRepository } from "../Repositories/IExpenseRepository.ts";
-import { Expense } from "../Models/Expense.ts";
-import { IUseCase,IParams } from "./IUseCase.ts";
+import { IExpenseRepository } from "../Repositories/IExpenseRepository";
+import { Expense } from "../Models/Expense";
+import { IUseCase,IParams } from "./IUseCase";
 
 export class GetExpenseByIdUseCase implements IUseCase<GetExpenseByIdParams,Expense | null> {
   constructor(private expenseRepository: IExpenseRepository) {}
 
-  async execute(GetExpenseByIdParams): Promise<Expense | null> {
-    return await this.expenseRepository.fetchById(GetExpenseByIdParams.id);
+  async execute(params: GetExpenseByIdParams): Promise<Expense | null> {
+    return await this.expenseRepository.fetchById(params.id);
   }
 }
 

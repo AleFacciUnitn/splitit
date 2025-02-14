@@ -1,11 +1,11 @@
-import { IExpenseRepository } from "../Repositories/IExpenseRepository.ts";
-import { Expense } from "../Models/Expense.ts";
-import { IUseCase, NoParams } from "./IUseCase.ts";
+import { IExpenseRepository } from "../Repositories/IExpenseRepository";
+import { Expense } from "../Models/Expense";
+import { IUseCase, NoParams } from "./IUseCase";
 
 export class GetExpensesUseCase implements IUseCase<NoParams,Expense[]> {
   constructor(private expenseRepository: IExpenseRepository) {}
 
-  async execute(NoParams): Promise<Expense[]> {
+  async execute(params: NoParams): Promise<Expense[]> {
     return await this.expenseRepository.fetchAll();
   }
 }
