@@ -1,5 +1,5 @@
-import { Expense } from "../Models/Expense.ts";
-import { IRepository } from "./IRepository.ts";
+import { Expense } from "../Models/Expense";
+import { IRepository } from "./IRepository";
 
 export interface IExpenseRepository extends IRepository<Expense>{
   create(item: Expense): Promise<Expense>;

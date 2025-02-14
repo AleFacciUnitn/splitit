@@ -8,7 +8,7 @@ describe("ExpenseDataSourceLocal", () => {
 
   beforeEach(() => {
     expenseDataSource = ExpenseDataSourceLocal.getInstance();
-    expense = { id: "1", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
+    expense = { id: "0", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
     (expenseDataSource as any).expenses = [ expense ]; // Reset internal state before each test
   });
 
@@ -19,7 +19,7 @@ describe("ExpenseDataSourceLocal", () => {
   });
 
   test("should add an expense", async () => {
-    const newExpense: ExpenseDTO = { id: "2", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
+    const newExpense: ExpenseDTO = { id: "0", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
     await expenseDataSource.create(newExpense);
 
     expect((expenseDataSource as any).expenses).toHaveLength(2);
@@ -32,7 +32,7 @@ describe("ExpenseDataSourceLocal", () => {
   });
 
   test("should retrieve an expense by ID", async () => {
-    const retrievedExpense = await expenseDataSource.fetchById("1");
+    const retrievedExpense = await expenseDataSource.fetchById("0");
     expect(retrievedExpense).toEqual(expense);
   });
 
@@ -47,7 +47,7 @@ describe("ExpenseDataSourceLocal", () => {
   });
 
   test("should delete an expense by ID", async () => {
-    const deleted = await expenseDataSource.delete("1");
+    const deleted = await expenseDataSource.delete("0");
     expect(deleted).toBe(true);
     expect((expenseDataSource as any).expenses).toHaveLength(0);
   });

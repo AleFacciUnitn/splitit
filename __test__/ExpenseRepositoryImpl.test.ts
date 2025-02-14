@@ -22,7 +22,7 @@ describe("ExpenseRepositoryImpl", () => {
   });
 
   test("should add an expense", async () => {
-    const newExpense: Expense = new Expense("1","yyyy-mm-dd","expense","Groceries",100);
+    const newExpense: Expense = new Expense("0","yyyy-mm-dd","expense","Groceries",100);
     await expenseRepository.create(newExpense);
 
     expect((expenseDataSource as any).expenses.length).toBe(2);

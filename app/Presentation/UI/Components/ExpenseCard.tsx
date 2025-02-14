@@ -1,4 +1,4 @@
-import { Expense } from "../../../Domain/Models/Expense.ts";
+import { Expense } from "../../../Domain/Models/Expense";
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
 
 export default function ExpenseCard({ expense }) {
   return (
-    <Card sx={{ maxWidth: 345, m: 1 }}>
+    <Card sx={{ m: 1 }} className="grow">
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
           <Typography variant="h6" component="div" sx={{ wordBreak: 'break-word', flex: 1 }}>

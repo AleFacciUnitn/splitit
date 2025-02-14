@@ -1,10 +1,8 @@
 import Image from "next/image";
-import Expenses from "./Presentation/UI/Pages/Expenses.tsx";
+import HomePage from "./Presentation/UI/Pages/HomePage";
 
 export default function Home() {
   return (
-    <div className="">
-      <Expenses/>
-    </div>
+    <HomePage/>
   );
 }

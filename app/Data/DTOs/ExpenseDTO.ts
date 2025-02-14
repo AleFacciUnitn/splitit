@@ -1,4 +1,4 @@
-import { IDTO } from "./IDTO.ts";
+import { IDTO } from "./IDTO";
 
 export interface ExpenseDTO extends IDTO {
   id: string;

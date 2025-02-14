@@ -4,6 +4,7 @@ import { ExpenseNotFoundError } from "../../Core/Error/ExpenseNotFoundError";
 
 export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
   private static instance: ExpenseDataSourceLocal;
+  private id: number = 0;
   private expenses: ExpenseDTO[];
 
   private constructor() {
@@ -28,6 +29,7 @@ export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
   }
 
   async create(item: ExpenseDTO): Promise<ExpenseDTO> {
+    item.id = `${this.id++}`;
     this.expenses.push(item);
     return item;
   }
