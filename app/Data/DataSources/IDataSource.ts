@@ -1,9 +1,9 @@
-import { IDTO } from "../DTOs/IDTO.ts";
+import { IDTO } from "../DTOs/IDTO";
 
 export interface IDataSource<IDTO> {
   static async fetchAll(): Promise<IDTO[]>;
 
-  static async fetchById(id: string): Promise<IDTO | null>;
+  static async fetchById(id: string): Promise<IDTO>;
 
   static async create(item: IDTO): Promise<IDTO>;
 

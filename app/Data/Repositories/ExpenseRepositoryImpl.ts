@@ -24,8 +24,12 @@ export class ExpenseRepositoryImpl<ExpenseDataSourceLocal> implements IExpenseRe
   }
 
   async fetchById(id: string): Promise<Expense | null> {
-    const dto = await this.dataSource.fetchById(id);
-    return dto ? Expense.parseExpenseDTO(dto) : null;
+    try {
+      const dto = await this.dataSource.fetchById(id);
+      return Expense.parseExpenseDTO(dto);
+    } catch (e) {
+      return null;
+    }
   }
 
   async create(item: Expense): Promise<Expense> {
@@ -38,7 +42,7 @@ export class ExpenseRepositoryImpl<ExpenseDataSourceLocal> implements IExpenseRe
     try {
       const updatedDTO = await this.dataSource.update(id,item);
       return Expense.parseExpenseDTO(updatedDTO);
-    } catch (error) {
+    } catch (e) {
       return null;
     }
   }

@@ -1,5 +1,6 @@
-import { ExpenseDTO } from "../DTOs/ExpenseDTO.ts";
-import { IDataSource } from "./IDataSource.ts";
+import { ExpenseDTO } from "../DTOs/ExpenseDTO";
+import { IDataSource } from "./IDataSource";
+import { ExpenseNotFoundError } from "../../Core/Error/ExpenseNotFoundError";
 
 export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
   private static instance: ExpenseDataSourceLocal;
@@ -8,7 +9,7 @@ export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
   private constructor() {
     this.expenses = [];
   }
-
+  
   public static getInstance(): ExpenseDataSourceLocal {
     if (!ExpenseDataSourceLocal.instance) {
       ExpenseDataSourceLocal.instance = new ExpenseDataSourceLocal();
@@ -20,8 +21,10 @@ export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
     return this.expenses;
   }
 
-  async fetchById(id: string): Promise<ExpenseDTO | null> {
-    return this.expenses.find(expense => expense.id === id);
+  async fetchById(id: string): Promise<ExpenseDTO> {
+    const expense = this.expenses.find(expense => expense.id === id);
+    if (!expense) throw new ExpenseNotFoundError();
+    return expense;
   }
 
   async create(item: ExpenseDTO): Promise<ExpenseDTO> {
@@ -31,7 +34,7 @@ export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
 
   async update(id: string, item: Partial<ExpenseDTO>): Promise<ExpenseDTO> {
     const index = this.expenses.findIndex(expense => expense.id === id);
-    if (index === -1) throw "User not found";
+    if (index === -1) throw new ExpenseNotFoundError();
     this.expenses[index] = {...this.expenses[index], ...item};
     return this.expenses[index];
   }
