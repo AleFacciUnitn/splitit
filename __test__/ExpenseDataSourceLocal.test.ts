@@ -4,10 +4,12 @@ import { ExpenseNotFoundError } from "../app/Core/Error/ExpenseNotFoundError";
 
 describe("ExpenseDataSourceLocal", () => {
   let expenseDataSource: ExpenseDataSourceLocal;
+  let expense: ExpenseDTO;
 
   beforeEach(() => {
     expenseDataSource = ExpenseDataSourceLocal.getInstance();
-    (expenseDataSource as any).expenses = []; // Reset internal state before each test
+    expense = { id: "1", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
+    (expenseDataSource as any).expenses = [ expense ]; // Reset internal state before each test
   });
 
   test("should be a singleton", () => {
@@ -17,30 +19,19 @@ describe("ExpenseDataSourceLocal", () => {
   });
 
   test("should add an expense", async () => {
-    const expense: ExpenseDTO = { id: "1", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
-    await expenseDataSource.create(expense);
+    const newExpense: ExpenseDTO = { id: "2", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
+    await expenseDataSource.create(newExpense);
 
-    expect((expenseDataSource as any).expenses.length).toBe(1);
-    expect((expenseDataSource as any).expenses[0]).toEqual(expense);
+    expect((expenseDataSource as any).expenses).toHaveLength(2);
+    expect((expenseDataSource as any).expenses[1]).toEqual(newExpense);
   });
 
   test("should retrieve all expenses", async () => {
-    const expense1: ExpenseDTO = { id: "1", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
-    const expense2: ExpenseDTO = { id: "2", date: "yyyy-mm-dd", category: "expense", amount: 50, description: "Transport" };
-
-    await expenseDataSource.create(expense1);
-    await expenseDataSource.create(expense2);
-
-    const expenses = await expenseDataSource.fetchAll();
-    expect(expenses).toHaveLength(2);
-    expect(expenses).toContainEqual(expense1);
-    expect(expenses).toContainEqual(expense2);
+    let expensesFetched = await expenseDataSource.fetchAll();
+    expect(expensesFetched).toBe((expenseDataSource as any).expenses);
   });
 
   test("should retrieve an expense by ID", async () => {
-    const expense: ExpenseDTO = { id: "1", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
-    await expenseDataSource.create(expense);
-
     const retrievedExpense = await expenseDataSource.fetchById("1");
     expect(retrievedExpense).toEqual(expense);
   });
@@ -56,12 +47,9 @@ describe("ExpenseDataSourceLocal", () => {
   });
 
   test("should delete an expense by ID", async () => {
-    const expense: ExpenseDTO = { id: "1", date: "yyyy-mm-dd", category: "expense", amount: 100, description: "Groceries" };
-    await expenseDataSource.create(expense);
-
     const deleted = await expenseDataSource.delete("1");
     expect(deleted).toBe(true);
-    expect((expenseDataSource as any).expenses.length).toBe(0);
+    expect((expenseDataSource as any).expenses).toHaveLength(0);
   });
 
   test("should return false when deleting a non-existent expense", async () => {

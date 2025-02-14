@@ -1,11 +1,12 @@
-import { IExpenseRepository } from "../../Domain/Repositories/IExpenseRepository.ts";
-import { Expense } from "../../Domain/Models/Expense.ts";
-import { ExpenseDataSourceLocal } from "../DataSources/ExpenseDataSourceLocal.ts";
-import { ExpenseDTO } from "../DTOs/ExpenseDTO.ts";
+import { IExpenseRepository } from "../../Domain/Repositories/IExpenseRepository";
+import { Expense } from "../../Domain/Models/Expense";
+import { IDataSource } from "../DataSources/IDataSource";
+import { ExpenseDataSourceLocal } from "../DataSources/ExpenseDataSourceLocal";
+import { ExpenseDTO } from "../DTOs/ExpenseDTO";
 
-export class ExpenseRepositoryImpl<ExpenseDataSourceLocal> implements IExpenseRepository {
+export class ExpenseRepositoryImpl implements IExpenseRepository {
   private static instance: ExpenseRepositoryImpl;
-  private dataSource: IDataSource;
+  private dataSource: IDataSource<ExpenseDTO>;
 
   private constructor() {
     this.dataSource = ExpenseDataSourceLocal.getInstance();
@@ -48,6 +49,6 @@ export class ExpenseRepositoryImpl<ExpenseDataSourceLocal> implements IExpenseRe
   }
 
   async delete(id: string): Promise<boolean> {
-    return ExpenseDataSourceLocal.delete(id);
+    return this.dataSource.delete(id);
   }
 }

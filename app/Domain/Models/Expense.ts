@@ -1,4 +1,4 @@
-import { ExpenseDTO } from "../../Data/DTOs/ExpenseDTO.ts";
+import { ExpenseDTO } from "../../Data/DTOs/ExpenseDTO";
 
 export class Expense {
   constructor(
