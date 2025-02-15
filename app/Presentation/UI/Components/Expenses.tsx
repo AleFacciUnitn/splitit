@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Fab from "@mui/material/Fab";
 import IconButton from "@mui/material/IconButton";
@@ -43,6 +44,12 @@ export default function Expenses() {
   useEffect(() => {
     if (expenses === null) fetchExpenses();
   }, [expenses])
+
+  if (expenses === null) {
+    return <Container className="flex justify-center align-center">
+      <CircularProgress/>
+    </Container>;
+  }
   
   const createExpense = (formJson: Object) => {
     const description: string = formJson.description;

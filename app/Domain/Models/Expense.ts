@@ -13,7 +13,7 @@ export class Expense {
     return {...this};
   }
 
-  public static parseExpenseDTO(dto: ExpenseDTO): Expense {
+  public static parseDTO(dto: ExpenseDTO): Expense {
     return new Expense(
       dto.id,
       dto.date,

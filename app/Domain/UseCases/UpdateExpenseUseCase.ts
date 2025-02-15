@@ -2,11 +2,11 @@ import { IExpenseRepository } from "../Repositories/IExpenseRepository";
 import { Expense } from "../Models/Expense";
 import { IUseCase, IParams } from "./IUseCase";
 
-export class UpdateExpenseUseCase implements IUseCase<UpdateExpenseParams,Expense> {
-  constructor(private expenseRepository: IExpenseRepository) {}
+export class UpdateExpenseUseCase implements IUseCase<UpdateExpenseParams,Expense | null> {
+  constructor(private repository: IExpenseRepository) {}
 
-  async execute(params: UpdateExpenseParams): Promise<Expense> {
-    return await this.expenseRepository.update(params.id,params.item);
+  async execute(params: UpdateExpenseParams): Promise<Expense | null> {
+    return await this.repository.update(params.id,params.item);
   }
 }
 

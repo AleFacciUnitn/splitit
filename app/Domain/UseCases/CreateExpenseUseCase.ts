@@ -3,10 +3,10 @@ import { Expense } from "../Models/Expense";
 import { IUseCase, IParams } from "./IUseCase";
 
 export class CreateExpenseUseCase implements IUseCase<CreateExpenseParams,Expense> {
-  constructor(private expenseRepository: IExpenseRepository) {}
+  constructor(private repository: IExpenseRepository) {}
 
   async execute(params: CreateExpenseParams): Promise<Expense> {
-    return await this.expenseRepository.create(params.item);
+    return await this.repository.create(params.item);
   }
 }
 

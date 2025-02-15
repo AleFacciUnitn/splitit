@@ -21,13 +21,13 @@ export class ExpenseRepositoryImpl implements IExpenseRepository {
 
   async fetchAll(): Promise<Expense[]> {
     const expenseDTOs = await this.dataSource.fetchAll();
-    return expenseDTOs.map((dto: ExpenseDTO) => Expense.parseExpenseDTO(dto));
+    return expenseDTOs.map((dto: ExpenseDTO) => Expense.parseDTO(dto));
   }
 
   async fetchById(id: string): Promise<Expense | null> {
     try {
       const dto = await this.dataSource.fetchById(id);
-      return Expense.parseExpenseDTO(dto);
+      return Expense.parseDTO(dto);
     } catch (e) {
       return null;
     }
@@ -36,13 +36,13 @@ export class ExpenseRepositoryImpl implements IExpenseRepository {
   async create(item: Expense): Promise<Expense> {
     const dto: ExpenseDTO = item.serializeDTO();
     const newExpense = await this.dataSource.create(dto);
-    return Expense.parseExpenseDTO(newExpense);
+    return Expense.parseDTO(newExpense);
   }
 
   async update(id: string, item: Partial<Expense>): Promise<Expense | null> {
     try {
       const updatedDTO = await this.dataSource.update(id,item);
-      return Expense.parseExpenseDTO(updatedDTO);
+      return Expense.parseDTO(updatedDTO);
     } catch (e) {
       return null;
     }

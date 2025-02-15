@@ -3,10 +3,10 @@ import { Expense } from "../Models/Expense";
 import { IUseCase,IParams } from "./IUseCase";
 
 export class GetExpenseByIdUseCase implements IUseCase<GetExpenseByIdParams,Expense | null> {
-  constructor(private expenseRepository: IExpenseRepository) {}
+  constructor(private repository: IExpenseRepository) {}
 
   async execute(params: GetExpenseByIdParams): Promise<Expense | null> {
-    return await this.expenseRepository.fetchById(params.id);
+    return await this.repository.fetchById(params.id);
   }
 }
 
