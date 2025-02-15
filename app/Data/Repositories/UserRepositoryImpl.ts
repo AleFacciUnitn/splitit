@@ -41,7 +41,7 @@ export class UserRepositoryImpl implements IUserRepository {
       throw "Invalid Credential";
     }
     const accessToken = jwt.sign({id: dto.id, email: dto.email}, "SECRET_KEY", {expiresIn: "1h"});
-    const refreshToken = jwt.sign({id: dto.id}, "SECRET_KEY", {expiresIn: "7d"});
+    const refreshToken = jwt.sign({id: dto.id, email: dto.email}, "SECRET_KEY", {expiresIn: "7d"});
     return {accessToken,refreshToken};
   }
 
