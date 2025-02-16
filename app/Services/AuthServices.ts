@@ -1,18 +1,19 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import * as jose from "jose"
+import bcrypt from "bcryptjs";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "SECRET_KEY");
 
-export class AuthService {
-  private static instance: AuthService;
+export class AuthServices {
+  private static instance: AuthServices;
 
   private constructor() {} // Private constructor (Singleton)
 
-  public static getInstance(): AuthService {
-    if (!AuthService.instance) {
-      AuthService.instance = new AuthService();
+  public static getInstance(): AuthServices {
+    if (!AuthServices.instance) {
+      AuthServices.instance = new AuthServices();
     }
-    return AuthService.instance;
+    return AuthServices.instance;
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -24,11 +25,11 @@ export class AuthService {
     return await bcrypt.compare(password, hash);
   }
 
-  generateToken(userId: string): string {
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
+  generateToken(id: string, email: string, expirationTime: string): string {
+    return jwt.sign({ id, email }, JWT_SECRET, { expiresIn: expirationTime });
   }
 
   verifyToken(token: string): string | object {
-    return jwt.verify(token, JWT_SECRET);
+    return jose.jwtVerify(token, JWT_SECRET);
   }
 }

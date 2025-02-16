@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     useCase = new LogInUseCase(repository);
     try {
       const { accessToken, refreshToken } = await useCase.execute(new LogInParams(email, password));
-      const response = NextResponse.json({ token }, { status: 200 });
+      const response = NextResponse.json({}, { status: 200 });
       response.cookies.set("accessToken", accessToken, {
 	httpOnly: true,
 	sameSite: "strict",

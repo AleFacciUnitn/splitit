@@ -1,17 +1,18 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { IUserRepository } from "../../Domain/Repositories/IUserRepository";
 import { User } from "../../Domain/Models/User";
 import { IDataSource } from "../DataSources/IDataSource";
 import { UserDataSourceLocal } from "../DataSources/UserDataSourceLocal";
 import { UserDTO } from "../DTOs/UserDTO";
+import { AuthServices } from "../../Services/AuthServices";
 
 export class UserRepositoryImpl implements IUserRepository {
   private static instance: UserRepositoryImpl;
   private dataSource: IDataSource<ExpenseDTO>;
+  private authServices: AuthServices;
 
   private constructor() {
     this.dataSource = UserDataSourceLocal.getInstance();
+    this.authServices = AuthServices.getInstance();
   }
 
   public static getInstance(): UserRepositoryImpl {
@@ -37,11 +38,11 @@ export class UserRepositoryImpl implements IUserRepository {
 
   async logIn(email: string, password: string): Promise<{accessToken: string, refreshToken: string}> {
     const dto = await this.dataSource.fetchByEmail(email);
-    if (!(await bcrypt.compare(password, dto.password))) {
+    if (!(await this.authServices.comparePasswords(password, dto.password))) {
       throw "Invalid Credential";
     }
-    const accessToken = jwt.sign({id: dto.id, email: dto.email}, "SECRET_KEY", {expiresIn: "1h"});
-    const refreshToken = jwt.sign({id: dto.id, email: dto.email}, "SECRET_KEY", {expiresIn: "7d"});
+    const accessToken = this.authServices.generateToken(dto.id, dto.email, "1h");
+    const refreshToken = this.authServices.generateToken(dto.id, dto.email, "7d");
     return {accessToken,refreshToken};
   }
 

@@ -1,15 +1,17 @@
-import bcrypt from "bcryptjs";
 import { UserDTO } from "../DTOs/UserDTO";
 import { IDataSource } from "./IDataSource";
 import { UserNotFoundError } from "../../Core/Error/UserNotFoundError";
+import { AuthServices } from "../../Services/AuthServices";
 
 export class UserDataSourceLocal implements IDataSource<UserDTO>{
   private static instance: UserDataSourceLocal;
   private id: number = 0;
   private users: UserDTO[];
+  private authServices: AuthServices;
 
   private constructor() {
     this.users = [];
+    this.authServices = AuthServices.getInstance();
   }
   
   public static getInstance(): UserDataSourceLocal {
@@ -37,7 +39,7 @@ export class UserDataSourceLocal implements IDataSource<UserDTO>{
 
   async create(item: UserDTO): Promise<UserDTO> {
     item.id = `${this.id++}`;
-    const hashedPassword = await bcrypt.hash(item.password, 10);
+    const hashedPassword = await this.authServices.hashPassword(item.password);
     item.password = hashedPassword;
     this.users.push(item);
     return item;
