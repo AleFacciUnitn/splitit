@@ -2,9 +2,9 @@ import Link from "next/link";
 import { providerMap } from "../../auth.config";
 import { signIn } from "../../auth";
 
-export default async function SignInPage() {
+export default async function SignUpPage() {
   return (
-    <div className="flex overflow-hidden relative w-full h-full select-none">
+    <div className="flex overflow-hidden relative w-full h-full">
       <img
         src="/login_pattern.svg"
         alt="Pattern Background"
@@ -39,6 +39,23 @@ export default async function SignInPage() {
                 action={async (formData) => {
                   "use server";
 		  if (provider.id === "credentials") {
+		    const rawUser = JSON.stringify({
+		      email: formData.get("email"),
+		      password: formData.get("password")
+		    });
+		    const options = {
+		      method: "POST",
+		      headers: {
+			"Content-Type": "application/json",
+		      },
+		      body: rawUser,
+		    };
+		    await fetch("/api/auth/register",options)
+		      .then((response) => {
+			if (!response.ok) throw response;
+			return response.json();
+		      })
+		      .catch((e) => console.error(e));
                     await signIn(provider.id, {
                       redirectTo: "/",
 		      password: formData.get("password"),
@@ -90,7 +107,7 @@ export default async function SignInPage() {
                 </div>
               </form>
             ))}
-	    <p className="text-sm text-black text-center">Don't have an account? <Link href="/signup" className="cursor-pointer font-bold">Sign up</Link></p>
+	    <p className="text-sm text-black text-center">Already have an account? <Link href="/login" className="cursor-pointer font-bold">Log in</Link></p>
           </div>
         </div>
       </div>

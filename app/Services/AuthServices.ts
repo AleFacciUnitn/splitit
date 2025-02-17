@@ -25,11 +25,11 @@ export class AuthServices {
     return await bcrypt.compare(password, hash);
   }
 
-  generateToken(id: string, email: string, expirationTime: string): string {
-    return jwt.sign({ id, email }, JWT_SECRET, { expiresIn: expirationTime });
+  generateToken(id: string, expirationTime: string): string {
+    return jwt.sign({ id }, JWT_SECRET, { expiresIn: expirationTime });
   }
 
-  verifyToken(token: string): string | object {
-    return jose.jwtVerify(token, JWT_SECRET);
+  verifyToken(token: string): void {
+    jose.jwtVerify(token, JWT_SECRET);
   }
-}
+} 

@@ -5,8 +5,8 @@ import { UserDataSourceLocal } from "../DataSources/UserDataSourceLocal";
 import { UserDTO } from "../DTOs/UserDTO";
 import { AuthServices } from "../../Services/AuthServices";
 
-export class UserRepositoryImpl implements IUserRepository {
-  private static instance: UserRepositoryImpl;
+export class UserRepositoryNextAuthImpl implements IUserRepository {
+  private static instance: UserRepositoryNextAuthImpl;
   private dataSource: IDataSource<ExpenseDTO>;
   private authServices: AuthServices;
 
@@ -15,11 +15,11 @@ export class UserRepositoryImpl implements IUserRepository {
     this.authServices = AuthServices.getInstance();
   }
 
-  public static getInstance(): UserRepositoryImpl {
-    if (!UserRepositoryImpl.instance) {
-      UserRepositoryImpl.instance = new UserRepositoryImpl();
+  public static getInstance(): UserRepositoryNextAuthImpl {
+    if (!UserRepositoryNextAuthImpl.instance) {
+      UserRepositoryNextAuthImpl.instance = new UserRepositoryNextAuthImpl();
     }
-    return UserRepositoryImpl.instance;
+    return UserRepositoryNextAuthImpl.instance;
   }
 
   async fetchAll(): Promise<User[]> {
@@ -36,14 +36,12 @@ export class UserRepositoryImpl implements IUserRepository {
     }
   }
 
-  async logIn(email: string, password: string): Promise<{accessToken: string, refreshToken: string}> {
+  async logIn(email: string, password: string): Promise<User> {
     const dto = await this.dataSource.fetchByEmail(email);
     if (!(await this.authServices.comparePasswords(password, dto.password))) {
       throw "Invalid Credential";
     }
-    const accessToken = this.authServices.generateToken(dto.id, "1h");
-    const refreshToken = this.authServices.generateToken(dto.id, "7d");
-    return {accessToken,refreshToken};
+    return User.parseDTO(dto);
   }
 
   async create(item: User): Promise<User> {

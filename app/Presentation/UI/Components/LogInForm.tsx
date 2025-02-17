@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -11,9 +11,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import authenticate from "../../../Services/LogIn";
 
 export default function LogInForm() {
   const router = useRouter();
+  const [errorMsg, dispatch] = useActionState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>(false);
   const [password, setPassword] = useState<string>(false);
@@ -30,24 +32,7 @@ export default function LogInForm() {
     event.preventDefault();
   };
 
-  const logIn = () => {
-    const rawBody: string = JSON.stringify({email: email,password: password,action: action});
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: rawBody,
-    };
-    fetch(apiEndpoint,options)
-      .then((response) => {
-        if (!response.ok) throw response;
-	router.push("/");
-      })
-      .catch((e) => console.error(e));
-  }
-
-  return <div className="flex justify-center flex-col bg-white h-1/2 w-1/2 px-10 gap-6">
+  return <form action={dispatch} className="flex justify-center flex-col bg-white h-1/2 w-1/2 px-10 gap-6">
     <TextField
       onChange={(e) => setEmail(e.target.value)}
       required
@@ -79,6 +64,7 @@ export default function LogInForm() {
         }
         label="Password"/>
     </FormControl>
-    <Button className="w-max self-center px-4" onClick={logIn}>LogIn</Button>
-  </div>;
+    <p>{errorMsg}</p>
+    <Button className="w-max self-center px-4" type="submit">LogIn</Button>
+  </form>;
 }
