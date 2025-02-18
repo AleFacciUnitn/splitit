@@ -2,6 +2,7 @@ import { IDTO } from "./IDTO";
 
 export interface ExpenseDTO extends IDTO {
   id: string;
+  userId: string;
   date: string;
   description: string;
   category: string;

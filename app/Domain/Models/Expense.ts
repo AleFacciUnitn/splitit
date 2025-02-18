@@ -4,6 +4,7 @@ import { IModel } from "./IModel";
 export class Expense implements IModel<ExpenseDTO> {
   constructor(
     public id: string,
+    public userId: string,
     public date: string,
     public description: string,
     public category: string,
@@ -17,6 +18,7 @@ export class Expense implements IModel<ExpenseDTO> {
   public static parseDTO(dto: ExpenseDTO): Expense {
     return new Expense(
       dto.id,
+      dto.userId,
       dto.date,
       dto.description,
       dto.category,

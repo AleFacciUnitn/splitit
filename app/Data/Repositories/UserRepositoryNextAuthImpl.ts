@@ -1,7 +1,7 @@
 import { IUserRepository } from "../../Domain/Repositories/IUserRepository";
 import { User } from "../../Domain/Models/User";
 import { RepositoryImpl } from "./RepositoryImpl";
-import { UserDataSourceLocal } from "../DataSources/UserDataSourceLocal";
+import { UserDataSourceMariaDB } from "../DataSources/UserDataSourceMariaDB";
 import { UserDTO } from "../DTOs/UserDTO";
 import { AuthServices } from "../../Services/AuthServices";
 
@@ -10,7 +10,7 @@ export class UserRepositoryNextAuthImpl extends RepositoryImpl<User, UserDTO> im
   private authServices: AuthServices;
 
   private constructor() {
-    super(UserDataSourceLocal.getInstance());
+    super(UserDataSourceMariaDB.getInstance());
     this.authServices = AuthServices.getInstance();
   }
 

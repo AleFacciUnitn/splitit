@@ -2,7 +2,7 @@ import { UserDTO } from "../../Data/DTOs/UserDTO";
 
 export class User {
   constructor(
-    public id: string,
+    public id: string | null,
     public email: string,
     public password: string,
   ) {}

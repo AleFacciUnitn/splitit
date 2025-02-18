@@ -25,6 +25,7 @@ export abstract class RepositoryImpl<TModel, TDTO> {
   }
 
   async create(model: TModel): Promise<TModel> {
+    console.log(model);
     const dto = (model as unknown as IModel<TDTO>).serializeDTO();
     const createdDto = await this.dataSource.create(dto);
     return this.mapToModel(createdDto);
@@ -40,8 +41,12 @@ export abstract class RepositoryImpl<TModel, TDTO> {
     }
   }
 
-  async delete(id: string): Promise<boolean> {
-    return this.dataSource.delete(id);
+  async delete(id: string): Promise<TModel | null> {
+    try {
+      return this.dataSource.delete(id);
+    } catch (e) {
+      return null;
+    }
   }
 }
 

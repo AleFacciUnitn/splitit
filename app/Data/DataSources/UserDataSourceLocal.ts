@@ -4,9 +4,9 @@ import { UserNotFoundError } from "../../Core/Error/UserNotFoundError";
 import { AuthServices } from "../../Services/AuthServices";
 
 export class UserDataSourceLocal implements IDataSource<UserDTO>{
-  private static instance: UserDataSourceLocal;
+  private static instance: UserDataSourceLocal = new UserDataSourceLocal();
   private id: number = 0;
-  private users: UserDTO[];
+  private users: UserDTO[] = [];
   private authServices: AuthServices;
 
   private constructor() {

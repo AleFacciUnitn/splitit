@@ -9,5 +9,5 @@ export interface IDataSource<IDTO> {
 
   static async update(id: string, item: Partial<IDTO>): Promise<IDTO>;
 
-  static async delete(id: string): Promise<boolean>;
+  static async delete(id: string): Promise<IDTO>;
 }

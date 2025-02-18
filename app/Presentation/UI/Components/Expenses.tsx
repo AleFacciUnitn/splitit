@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import CircularLoading from "./CircularLoading";
 import Container from "@mui/material/Container";
@@ -15,6 +16,7 @@ import { Expense } from "../../../Domain/Models/Expense";
 
 export default function Expenses() {
   const apiEndpoint: string = "/api/expense";
+  const { data: session, state } = useSession({ required: true });
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -28,44 +30,45 @@ export default function Expenses() {
   };
 
   const fetchExpenses = () => {
+    console.log("refetching");
     setRefreshing(true);
-    fetch(apiEndpoint)
+    const options = {
+      method: "GET",
+      headers: {
+        "userId": session.user.id,
+      },
+    };
+    fetch(apiEndpoint,options)
     .then((response) => {
       if(!response.ok) throw response;
       return response.json()
     })
     .then((result) => {
-        setExpenses(result);
+        setExpenses(result === null ? [] : result);
         setRefreshing(false);
       })
     .catch((e) => console.error(e));
-  }
-
-  useEffect(() => {
-    if (expenses === null) fetchExpenses();
-  }, [expenses])
-
-  if (expenses === null) {
-    return <CircularLoading />;
   }
   
   const createExpense = (formJson: Object) => {
     const description: string = formJson.description;
     const category: string = formJson.category;
     const amount: number = parseFloat(formJson.amount);
-    const newExpense: string = {
+    const newExpense = JSON.stringify({
       id: "1",
-      date: date.format("YYYY-MM-DD"),
-      description: description,
-      category: category,
-      amount: amount
-    };
+      userId: session.user.id,
+      date: date.format(),
+      description,
+      category,
+      amount
+    });
+    console.log(newExpense);
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newExpense),
+      body: newExpense,
     };
     fetch(apiEndpoint,options)
       .then((response) => {
@@ -75,6 +78,12 @@ export default function Expenses() {
       })
       .catch((e) => console.error(e));
   }
+
+  useEffect(() => {
+    if (expenses === null && session !== null && session) fetchExpenses();
+  }, [expenses, session])
+
+  if (expenses === null) return <CircularLoading />;
 
   return (
     <Container className="relative flex flex-col">

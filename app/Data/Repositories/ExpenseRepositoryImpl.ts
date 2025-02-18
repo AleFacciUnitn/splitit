@@ -1,13 +1,14 @@
 import { Expense } from "../../Domain/Models/Expense";
-import { ExpenseDataSourceLocal } from "../DataSources/ExpenseDataSourceLocal";
+import { IExpenseRepository } from "../../Domain/Repositories/IExpenseRepository";
+import { ExpenseDataSourceMariaDB } from "../DataSources/ExpenseDataSourceMariaDB";
 import { ExpenseDTO } from "../DTOs/ExpenseDTO";
 import { RepositoryImpl } from "./RepositoryImpl";
 
-export class ExpenseRepositoryImpl extends RepositoryImpl<Expense, ExpenseDTO> {
+export class ExpenseRepositoryImpl extends RepositoryImpl<Expense, ExpenseDTO> implements IExpenseRepository<Expense>{
   private static instance: ExpenseRepositoryImpl;
 
   private constructor() {
-    super(ExpenseDataSourceLocal.getInstance());
+    super(ExpenseDataSourceMariaDB.getInstance());
   }
 
   public static getInstance(): ExpenseRepositoryImpl {
@@ -19,5 +20,9 @@ export class ExpenseRepositoryImpl extends RepositoryImpl<Expense, ExpenseDTO> {
 
   protected mapToModel(dto: ExpenseDTO) {
     return Expense.parseDTO(dto);
+  }
+
+  async fetchByUserId(id: string): Promise<Expense[] | null> {
+    return this.dataSource.fetchByUserId(id);
   }
 }

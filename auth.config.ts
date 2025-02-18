@@ -44,7 +44,7 @@ export default {
       return baseUrl;
     },
     async session({ session, token, user }) {
-      session.user = token.user as User;
+      session.user = token.user;
       return session;
     },
     async jwt({ token, user, trigger, session }) {
