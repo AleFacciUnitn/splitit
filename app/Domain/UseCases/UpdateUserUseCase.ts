@@ -1,9 +1,9 @@
-import { IUserRepository } from "../Repositories/IUserRepository";
+import { IRepository } from "../Repositories/IRepository";
 import { User } from "../Models/User";
 import { IUseCase, IParams } from "./IUseCase";
 
 export class UpdateUserUseCase implements IUseCase<UpdateUserParams,User | null> {
-  constructor(private repository: IExpenseRepository) {}
+  constructor(private repository: IRepository<User>) {}
 
   async execute(params: UpdateUserParams): Promise<User | null> {
     return await this.repository.update(params.id,params.item);

@@ -1,9 +1,9 @@
-import { IExpenseRepository } from "../Repositories/IExpenseRepository";
+import { IRepository } from "../Repositories/IRepository";
 import { Expense } from "../Models/Expense";
 import { IUseCase, IParams } from "./IUseCase";
 
 export class CreateExpenseUseCase implements IUseCase<CreateExpenseParams,Expense> {
-  constructor(private repository: IExpenseRepository) {}
+  constructor(private repository: IRepository<Expense>) {}
 
   async execute(params: CreateExpenseParams): Promise<Expense> {
     return await this.repository.create(params.item);

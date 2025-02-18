@@ -1,17 +1,16 @@
 import { IUserRepository } from "../../Domain/Repositories/IUserRepository";
 import { User } from "../../Domain/Models/User";
-import { IDataSource } from "../DataSources/IDataSource";
+import { RepositoryImpl } from "./RepositoryImpl";
 import { UserDataSourceLocal } from "../DataSources/UserDataSourceLocal";
 import { UserDTO } from "../DTOs/UserDTO";
 import { AuthServices } from "../../Services/AuthServices";
 
-export class UserRepositoryImpl implements IUserRepository {
+export class UserRepositoryImpl extends RepositoryImpl<User, UserDTO> implements IUserRepository<{accessToken: string, refreshToken: string}> {
   private static instance: UserRepositoryImpl;
-  private dataSource: IDataSource<ExpenseDTO>;
   private authServices: AuthServices;
 
   private constructor() {
-    this.dataSource = UserDataSourceLocal.getInstance();
+    super(UserDataSourceLocal.getInstance());
     this.authServices = AuthServices.getInstance();
   }
 
@@ -22,18 +21,8 @@ export class UserRepositoryImpl implements IUserRepository {
     return UserRepositoryImpl.instance;
   }
 
-  async fetchAll(): Promise<User[]> {
-    const userDTOs = await this.dataSource.fetchAll();
-    return userDTOs.map((dto: UserDTO) => User.parseDTO(dto));
-  }
-
-  async fetchById(id: string): Promise<User | null> {
-    try {
-      const dto = await this.dataSource.fetchById(id);
-      return User.parseDTO(dto);
-    } catch (e) {
-      return null;
-    }
+  protected mapToModel(dto: UserDTO) {
+    return User.parseDTO(dto);
   }
 
   async logIn(email: string, password: string): Promise<{accessToken: string, refreshToken: string}> {
@@ -44,24 +33,5 @@ export class UserRepositoryImpl implements IUserRepository {
     const accessToken = this.authServices.generateToken(dto.id, "1h");
     const refreshToken = this.authServices.generateToken(dto.id, "7d");
     return {accessToken,refreshToken};
-  }
-
-  async create(item: User): Promise<User> {
-    const dto: UserDTO = item.serializeDTO();
-    const newUser = await this.dataSource.create(dto);
-    return User.parseDTO(newUser);
-  }
-
-  async update(id: string, item: Partial<User>): Promise<User | null> {
-    try {
-      const updatedDTO = await this.dataSource.update(id,item);
-      return User.parseDTO(updatedDTO);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async delete(id: string): Promise<boolean> {
-    return this.dataSource.delete(id);
   }
 }

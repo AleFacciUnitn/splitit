@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 import { UserRepositoryNextAuthImpl } from "./app/Data/Repositories/UserRepositoryNextAuthImpl";
-import { CreateUserUseCase, CreateUserParams } from "./app/Domain/UseCases/CreateUserUseCase";
+import { LogInUseCaseNextAuth, LogInParams } from "./app/Domain/UseCases/LoginUseCase";
 import { User } from "./app/Domain/Models/User";
 
 const repository = UserRepositoryNextAuthImpl.getInstance();
@@ -14,10 +14,9 @@ const providers: Provider[] = [
         password: { label: "Password", type: "password"}
       },
       async authorize(credentials) {
-	const repository = UserRepositoryNextAuthImpl.getInstance();
-	const useCase = new CreateUserUseCase(repository);
+	const useCase = new LogInUseCaseNextAuth(repository);
 	const { email, password } = credentials;
-	const user: User = await useCase.execute(new CreateUserParams(new User("",email,password)));
+	const user: User = await useCase.execute(new LogInParams(email,password)));
 	console.log("=========================AUTHORIZE LOG===========================\n\n");
 	console.log(`email: ${email}`);
 	console.log(`password: ${password}`);

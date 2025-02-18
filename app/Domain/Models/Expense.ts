@@ -1,6 +1,7 @@
 import { ExpenseDTO } from "../../Data/DTOs/ExpenseDTO";
+import { IModel } from "./IModel";
 
-export class Expense {
+export class Expense implements IModel<ExpenseDTO> {
   constructor(
     public id: string,
     public date: string,

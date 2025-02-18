@@ -50,11 +50,11 @@ export default async function SignUpPage() {
 		      },
 		      body: rawUser,
 		    };
-		    await fetch("/api/auth/register",options)
+		    await fetch("http://localhost:3000/api/auth/register",options)
 		      .then((response) => {
 			if (!response.ok) throw response;
 			return response.json();
-		      })
+		      }).then((res) => console.log(res))
 		      .catch((e) => console.error(e));
                     await signIn(provider.id, {
                       redirectTo: "/",

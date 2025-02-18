@@ -2,10 +2,10 @@ import { IUserRepository } from "../Repositories/IUserRepository";
 import { User } from "../Models/User";
 import { IUseCase,IParams } from "./IUseCase";
 
-export class LogInUseCase implements IUseCase<LogInParams,{accessToken: string, refreshToken: string}> {
-  constructor(private repository: IUserRepository) {}
+export class LogInUseCaseNextAuth implements IUseCase<LogInParams,User> {
+  constructor(private repository: IUserRepository<User>) {}
 
-  async execute(params: LogInParams): Promise<{accessToken: string, refreshToken: string}> {
+  async execute(params: LogInParams): Promise<User> {
     return await this.repository.logIn(params.email,params.password);
   }
 }
