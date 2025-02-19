@@ -5,6 +5,7 @@ export class Partition {
     public id: string,
     public expenseId: string,
     public userId: string,
+    public groupId: string,
     public amount: number
   ) {}
 
@@ -17,6 +18,7 @@ export class Partition {
       dto.id,
       dto.expenseId,
       dto.userId,
+      dto.groupId,
       dto.amount
     );
   }

@@ -1,14 +1,14 @@
 import { IPartitionRepository } from "../../Domain/Repositories/IPartitionRepository";
 import { Partition } from "../../Domain/Models/Partition";
 import { BaseRepository } from "./RepositoryImpl";
-import { PartitionDataSourceLocal } from "../DataSources/PatitionDataSourceLocal";
+import { PartitionDataSourceMariaDB } from "../DataSources/PartitionDataSourceMariaDB";
 import { PartitionDTO } from "../DTOs/PartitionDTO";
 
 export class PartitionRepositoryImpl extends RepositoryImpl<Partition, PartitionDTO> implements IPartitionRepository<Partition> {
   private static instance: PartitionRepositoryImpl;
 
   private constructor() {
-    super(PartitionDataSourceLocal.getInstance());
+    super(PartitionDataSourceMariaDB.getInstance());
   }
 
   public static getInstance(): PartitionRepositoryImpl {

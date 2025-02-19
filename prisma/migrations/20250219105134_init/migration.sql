@@ -8,6 +8,7 @@ CREATE TABLE `User` (
     `image` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `password` VARCHAR(191) NULL,
 
     UNIQUE INDEX `User_username_key`(`username`),
     UNIQUE INDEX `User_email_key`(`email`),
@@ -77,26 +78,39 @@ CREATE TABLE `Authenticator` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Expense` (
+CREATE TABLE `Group` (
     `id` VARCHAR(191) NOT NULL,
-    `userId` VARCHAR(191) NOT NULL,
-    `date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `description` VARCHAR(191) NOT NULL,
-    `category` VARCHAR(191) NOT NULL,
-    `amount` DOUBLE NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Expense_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Partition` (
+CREATE TABLE `Expense` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `date` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `description` VARCHAR(191) NOT NULL,
+    `category` VARCHAR(191) NOT NULL,
+    `amount` DOUBLE NOT NULL,
+    `groupId` VARCHAR(191) NULL,
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    INDEX `Expense_userId_groupId_idx`(`userId`, `groupId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `PartitionExpense` (
     `id` VARCHAR(191) NOT NULL,
     `expenseId` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
+    `groupId` VARCHAR(191) NULL,
     `amount` DOUBLE NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Partition_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -108,3 +122,18 @@ ALTER TABLE `Session` ADD CONSTRAINT `Session_userId_fkey` FOREIGN KEY (`userId`
 
 -- AddForeignKey
 ALTER TABLE `Authenticator` ADD CONSTRAINT `Authenticator_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Expense` ADD CONSTRAINT `Expense_groupId_fkey` FOREIGN KEY (`groupId`) REFERENCES `Group`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Expense` ADD CONSTRAINT `Expense_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PartitionExpense` ADD CONSTRAINT `PartitionExpense_groupId_fkey` FOREIGN KEY (`groupId`) REFERENCES `Group`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PartitionExpense` ADD CONSTRAINT `PartitionExpense_expenseId_fkey` FOREIGN KEY (`expenseId`) REFERENCES `Expense`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PartitionExpense` ADD CONSTRAINT `PartitionExpense_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
