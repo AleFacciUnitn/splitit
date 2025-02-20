@@ -5,13 +5,25 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function ExpenseFormDialog({open, handleClose, date, setDate, createExpense}: {open: boolean, handleClose: any, date: Dayjs, setDate: any, createExpense: any}) {
-
+export default function ExpenseFormDialog({
+	open, 
+	handleClose, 
+	date, 
+	setDate, 
+	createExpense, 
+	groups, 
+	groupId, 
+	setGroupId
+}: {open: boolean, handleClose: any, date: Dayjs, setDate: any, createExpense: any, groups: any, groupId: string | null, setGroupId: any}) {
   return <Dialog
     open={open} 
     onClose={handleClose}
@@ -27,7 +39,19 @@ export default function ExpenseFormDialog({open, handleClose, date, setDate, cre
       },
     }}>
     <DialogTitle>New Expense</DialogTitle>
-    <DialogContent>
+    <DialogContent style={{paddingTop: "5px"}}>
+      {groups.length !== 0 &&
+      <FormControl fullWidth>
+        <InputLabel id="group-label">Group</InputLabel>
+        <Select
+          labelId="group-label"
+          label="Group"
+          value={groupId}
+	  onChange={setGroupId}
+        >
+          {groups?.map((group) => <MenuItem value={group.id}>{group.name}</MenuItem>)}
+        </Select>
+      </FormControl>}
       <TextField
         required
         margin="dense"

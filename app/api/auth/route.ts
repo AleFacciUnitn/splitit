@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+/*import { NextResponse } from "next/server";
 import { UserRepositoryImpl } from "../../Data/Repositories/UserRepositoryImpl";
 import { IUseCase, IParams } from "../../Domain/UseCases/IUseCase";
 import { LogInUseCase, LogInParams } from "../../Domain/UseCases/LoginUseCase";
@@ -38,5 +38,4 @@ export async function POST(req: Request) {
   } else {
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   }
-}
-
+}*/

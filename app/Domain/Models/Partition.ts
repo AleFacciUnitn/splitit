@@ -1,12 +1,13 @@
 import { PartitionDTO } from "../../Data/PartitionDTO";
+import { IModel } from "./IModel";
 
-export class Partition {
+export class Partition implements IModel {
   constructor(
     public id: string,
     public expenseId: string,
     public userId: string,
-    public groupId: string,
-    public amount: number
+    public amount: number,
+    public updatedAt: Date,
   ) {}
 
   public parseDTO(): PartitionDTO {
@@ -18,8 +19,8 @@ export class Partition {
       dto.id,
       dto.expenseId,
       dto.userId,
-      dto.groupId,
-      dto.amount
+      dto.amount,
+      dto.updatedAt
     );
   }
 }

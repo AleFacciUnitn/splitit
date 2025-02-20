@@ -1,10 +1,17 @@
+// next
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
+
+// RepositoryImpls
 import { ExpenseRepositoryImpl } from "../../Data/Repositories/ExpenseRepositoryImpl";
+
+// Models
 import { Expense } from "../../Domain/Models/Expense";
-import { GetExpensesUseCase } from "../../Domain/UseCases/GetExpensesUseCase";
-import { GetExpensesByUserIdUseCase, GetExpensesByUserIdParams } from "../../Domain/UseCases/GetExpensesByUserIdUseCase";
-import { CreateExpenseUseCase, CreateExpenseParams } from "../../Domain/UseCases/CreateExpenseUseCase";
+
+// UseCases and Params
+import { GetExpensesUseCase } from "../../Domain/UseCases/Expense/GetExpensesUseCase";
+import { GetExpensesByUserIdUseCase, GetExpensesByUserIdParams } from "../../Domain/UseCases/Expense/GetExpensesByUserIdUseCase";
+import { CreateExpenseUseCase, CreateExpenseParams } from "../../Domain/UseCases/Expense/CreateExpenseUseCase";
 import { NoParams } from "../../Domain/UseCases/IUseCase";
 
 export async function GET() {
@@ -30,8 +37,8 @@ async function getExpensesByUserId(userId: string) {
 
 export async function POST(req: Request) {
   const createExpenseUseCase = new CreateExpenseUseCase(ExpenseRepositoryImpl.getInstance());
-  const { id, userId, date, description, category, amount} = await req.json();
-  const newExpense = new Expense(id,userId,date,description,category,amount);
+  const { id, userId, groupId, date, description, category, amount} = await req.json();
+  const newExpense = new Expense(id,userId,date,description,category,amount,groupId);
   const createdExpense = await createExpenseUseCase.execute(new CreateExpenseParams(newExpense));
   return NextResponse.json(createdExpense, { status: 201 });
 }

@@ -26,10 +26,6 @@ export class GroupDataSourceMariaDB implements IDataSource<GroupDTO>{
     return this.table.findUniqueOrThrow({where: { id }});
   }
 
-  async fetchByUserId(userId: string): Promise<GroupDTO[]> {
-    return this.table.findMany({where: { userId }});
-  }
-
   async create(item: GroupDTO): Promise<GroupDTO> {
     console.log(item);
     return this.table.create({

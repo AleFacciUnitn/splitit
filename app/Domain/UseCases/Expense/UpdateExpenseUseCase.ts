@@ -1,6 +1,6 @@
-import { IRepository } from "../Repositories/IRepository";
-import { Expense } from "../Models/Expense";
-import { IUseCase, IParams } from "./IUseCase";
+import { IRepository } from "../../Repositories/IRepository";
+import { Expense } from "../../Models/Expense";
+import { IUseCase, IParams } from "../IUseCase";
 
 export class UpdateExpenseUseCase implements IUseCase<UpdateExpenseParams,Expense | null> {
   constructor(private repository: IRepository<Expense>) {}

@@ -14,13 +14,14 @@ import dayjs, { Dayjs } from 'dayjs';
 import ExpenseFormDialog from "../Components/ExpenseFormDialog";
 import { Expense } from "../../../Domain/Models/Expense";
 
-export default function Expenses() {
+export default function Expenses({groups}) {
   const apiEndpoint: string = "/api/expense";
   const { data: session, state } = useSession({ required: true });
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [date, setDate] = useState<Dayjs>(dayjs());
+  const [groupId, setGroupId] = useState<string | null>(null);
 
   const handleClose = () => {
     setOpen(false);
@@ -30,7 +31,6 @@ export default function Expenses() {
   };
 
   const fetchExpenses = () => {
-    console.log("refetching");
     setRefreshing(true);
     const options = {
       method: "GET",
@@ -60,7 +60,8 @@ export default function Expenses() {
       date: date.format(),
       description,
       category,
-      amount
+      amount,
+      groupId
     });
     console.log(newExpense);
     const options = {
@@ -86,13 +87,13 @@ export default function Expenses() {
   if (expenses === null) return <CircularLoading />;
 
   return (
-    <Container className="relative flex flex-col">
-      <Container className="sticky top-0 left-0">
+    <Container className="relative self-center h-5/6 flex flex-col" sx={{marginBottom: "4rem"}}>
+      <Container className="relative top-0 left-0">
         <IconButton color="primary" onClick={fetchExpenses} loading={refreshing}>
           <RefreshIcon/>
         </IconButton>
       </Container>
-      <Container>
+      <Container className="max-h-full grow overflow-y-scroll">
         <List>
           {expenses?.map((expense, index) => <ListItem key={index}>
             <ExpenseCard expense={expense} />
@@ -104,9 +105,12 @@ export default function Expenses() {
           date={date}
           setDate={setDate}
           createExpense={createExpense}
+	  groups={groups}
+	  groupId={groupId}
+	  setGroupId={setGroupId}
           />
       </Container>
-      <Container className="flex sticky bottom-0 left-0 justify-end p-4">
+      <Container className="flex absolute bottom-0 left-0 justify-end p-14">
         <Fab onClick={handleOpen}>
           <AddIcon/>
         </Fab>

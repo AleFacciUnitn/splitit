@@ -32,15 +32,19 @@ export class ExpenseDataSourceMariaDB implements IDataSource<ExpenseDTO>{
     return this.table.findMany({where: { userId }});
   }
 
+  async fetchByGroupId(groupId: string): Promise<ExpenseDTO[]> {
+    return this.table.findMany({where: { groupId }});
+  }
+
   async create(item: ExpenseDTO): Promise<ExpenseDTO> {
-    console.log(item);
     return this.table.create({
       data: {
         userId: item.userId,
 	date: item.date,
 	description: item.description,
 	category: item.category,
-	amount: item.amount
+	amount: item.amount,
+	groupId: item.groupId
       },
     })
   }

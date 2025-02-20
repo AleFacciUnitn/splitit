@@ -1,6 +1,6 @@
-import { IRepository } from "../Repositories/IRepository";
-import { User } from "../Models/User";
-import { IUseCase,IParams } from "./IUseCase";
+import { IRepository } from "../../Repositories/IRepository";
+import { User } from "../../Models/User";
+import { IUseCase,IParams } from "../IUseCase";
 
 export class DeleteUserUseCase implements IUseCase<DeleteUserParams,boolean> {
   constructor(private repository: IRepository<User>) {}

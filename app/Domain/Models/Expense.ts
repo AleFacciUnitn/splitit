@@ -5,10 +5,12 @@ export class Expense implements IModel<ExpenseDTO> {
   constructor(
     public id: string,
     public userId: string,
-    public date: string,
+    public date: Date,
     public description: string,
     public category: string,
     public amount: number,
+    public groupId?: string,
+    public updatedAt: Date = new Date()
   ) {}
 
   public serializeDTO(): ExpenseDTO {
@@ -22,7 +24,9 @@ export class Expense implements IModel<ExpenseDTO> {
       dto.date,
       dto.description,
       dto.category,
-      dto.amount
+      dto.amount,
+      dto.groupId,
+      dto.updatedAt
     );
   }
 }

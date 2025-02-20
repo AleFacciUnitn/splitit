@@ -39,9 +39,11 @@ export default async function SignUpPage() {
                 action={async (formData) => {
                   "use server";
 		  if (provider.id === "credentials") {
+		    const email = formData.get("email");
+		    const password = formData.get("password");
 		    const rawUser = JSON.stringify({
-		      email: formData.get("email"),
-		      password: formData.get("password")
+		      email,
+		      password
 		    });
 		    const options = {
 		      method: "POST",
@@ -58,8 +60,8 @@ export default async function SignUpPage() {
 		      .catch((e) => console.error(e));
                     await signIn(provider.id, {
                       redirectTo: "/",
-		      password: formData.get("password"),
-		      email: formData.get("email")
+		      password,
+		      email
                     });
                   } else {
                     await signIn(provider.id, { redirectTo: "/" });

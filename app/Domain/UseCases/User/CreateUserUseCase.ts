@@ -1,6 +1,6 @@
-import { IRepository } from "../Repositories/IRepository";
-import { User } from "../Models/User";
-import { IUseCase, IParams } from "./IUseCase";
+import { IRepository } from "../../Repositories/IRepository";
+import { User } from "../../Models/User";
+import { IUseCase, IParams } from "../IUseCase";
 
 export class CreateUserUseCase implements IUseCase<CreateUserParams,User> {
   constructor(private repository: IRepository<User>) {}

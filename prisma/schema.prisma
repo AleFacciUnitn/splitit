@@ -8,15 +8,15 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String          @id @default(cuid(2)) @db.VarChar(30)
   name          String?
   username      String?         @unique
-  email         String?         @unique
+  email         String?         @unique @db.VarChar(320)
   emailVerified DateTime?
   image         String?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  password      String?
+  password      String?         @db.VarChar(60)
   accounts      Account?
   Authenticator Authenticator[]
   expenses      Expense[]
@@ -26,8 +26,8 @@ model User {
 }
 
 model Account {
-  id                       String   @id @default(cuid())
-  userId                   String   @unique
+  id                       String   @id @default(cuid(2)) @db.VarChar(30)
+  userId                   String   @unique @db.VarChar(30)
   type                     String
   provider                 String
   providerAccountId        String
@@ -48,9 +48,9 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid(2)) @db.VarChar(30)
   sessionToken String   @unique
-  userId       String
+  userId       String   @db.VarChar(30)
   expires      DateTime
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -69,7 +69,7 @@ model VerificationToken {
 
 model Authenticator {
   credentialID         String  @unique
-  userId               String
+  userId               String  @db.VarChar(30)
   providerAccountId    String
   credentialPublicKey  String
   counter              Int
@@ -82,8 +82,8 @@ model Authenticator {
 }
 
 model ExpenseGroupUser {
-  userId   String
-  groupId  String
+  userId   String       @db.VarChar(30)
+  groupId  String       @db.VarChar(30)
 
   group    ExpenseGroup      @relation(fields: [groupId], references: [id])
   user     User        @relation(fields: [userId], references: [id])
@@ -92,7 +92,7 @@ model ExpenseGroupUser {
 }
 
 model ExpenseGroup {
-  id         String      @id @default(cuid())
+  id         String      @id @default(cuid(2)) @db.VarChar(30)
   name       String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -101,13 +101,13 @@ model ExpenseGroup {
 }
 
 model Expense {
-  id          String      @id @default(cuid())
-  userId      String
+  id          String      @id @default(cuid(2)) @db.VarChar(30)
+  userId      String      @db.VarChar(30)
   date        DateTime    @default(now()) @db.Timestamp(0)
   description String
   category    String
-  amount      Float
-  groupId     String?
+  amount      Float       @db.Float
+  groupId     String?     @db.VarChar(30)
   updatedAt   DateTime    @updatedAt
   group       ExpenseGroup?      @relation(fields: [groupId], references: [id])
   user        User        @relation(fields: [userId], references: [id])
@@ -117,10 +117,10 @@ model Expense {
 }
 
 model PartitionExpense {
-  id        String   @id @default(cuid())
-  expenseId String
-  userId    String
-  amount    Float
+  id        String   @id @default(cuid(2)) @db.VarChar(30)
+  expenseId String   @db.VarChar(30)
+  userId    String   @db.VarChar(30)
+  amount    Float    @db.Float
   expense   Expense  @relation(fields: [expenseId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
   updatedAt DateTime @updatedAt
