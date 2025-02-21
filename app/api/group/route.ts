@@ -3,19 +3,19 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 
 // RepositoryImpl
-import { GroupUserRepositoryImpl } from "../../Data/Repositories/GroupUserRepositoryImpl";
-import { GroupRepositoryImpl } from "../../Data/Repositories/GroupRepositoryImpl";
+import { GroupUserRepositoryImpl } from "@data/Repositories/GroupUserRepositoryImpl";
+import { GroupRepositoryImpl } from "@data/Repositories/GroupRepositoryImpl";
 
 // Model
-import { GroupUser } from "../../Domain/Models/GroupUser";
-import { Group } from "../../Domain/Models/Group";
+import { GroupUser } from "@domain/Models/GroupUser";
+import { Group } from "@domain/Models/Group";
 
 // UseCases and Params
-import { GetGroupsUseCase } from "../../Domain/UseCases/Group/GetGroupsUseCase";
-import { GetGroupByIdUseCase, GetGroupByIdParams } from "../../Domain/UseCases/Group/GetGroupByIdUseCase";
-import { GetGroupUsersByUserIdUseCase, GetGroupUsersByUserIdParams } from "../../Domain/UseCases/GroupUser/GetGroupUsersByUserIdUseCase";
-import { CreateGroupUseCase, CreateGroupParams } from "../../Domain/UseCases/Group/CreateGroupUseCase";
-import { NoParams } from "../../Domain/UseCases/IUseCase";
+import { GetGroupsUseCase } from "@domain/UseCases/Group/GetGroupsUseCase";
+import { GetGroupByIdUseCase, GetGroupByIdParams } from "@domain/UseCases/Group/GetGroupByIdUseCase";
+import { GetGroupUsersByUserIdUseCase, GetGroupUsersByUserIdParams } from "@domain/UseCases/GroupUser/GetGroupUsersByUserIdUseCase";
+import { CreateGroupUseCase, CreateGroupParams } from "@domain/UseCases/Group/CreateGroupUseCase";
+import { NoParams } from "@domain/UseCases/IUseCase";
 
 export async function GET() {
   const headerList = await headers();

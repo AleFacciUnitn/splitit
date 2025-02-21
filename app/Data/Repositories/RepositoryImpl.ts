@@ -1,5 +1,5 @@
-import { IDataSource } from "../DataSources/IDataSource";
-import { IModel } from "../../Domain/Models/IModel";
+import { IDataSource } from "@data/DataSources/IDataSource";
+import { IModel } from "@domain/Models/IModel";
 
 export abstract class RepositoryImpl<TModel, TDTO> {
   private dataSource: IDataSource<TDTO>;

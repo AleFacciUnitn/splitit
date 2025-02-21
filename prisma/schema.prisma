@@ -82,13 +82,13 @@ model Authenticator {
 }
 
 model ExpenseGroupUser {
-  userId   String       @db.VarChar(30)
+  id       Int		@id @default(autoincrement())
+  userId   String?      @db.VarChar(30)
   groupId  String       @db.VarChar(30)
 
-  group    ExpenseGroup      @relation(fields: [groupId], references: [id])
-  user     User        @relation(fields: [userId], references: [id])
+  group    ExpenseGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user     User?        @relation(fields: [userId], references: [id])
   @@index([userId,groupId])
-  @@id([userId,groupId])
 }
 
 model ExpenseGroup {
@@ -101,16 +101,16 @@ model ExpenseGroup {
 }
 
 model Expense {
-  id          String      @id @default(cuid(2)) @db.VarChar(30)
-  userId      String      @db.VarChar(30)
-  date        DateTime    @default(now()) @db.Timestamp(0)
+  id          String        @id @default(cuid(2)) @db.VarChar(30)
+  userId      String?       @db.VarChar(30)
+  date        DateTime      @default(now()) @db.Timestamp(0)
   description String
   category    String
-  amount      Float       @db.Float
-  groupId     String?     @db.VarChar(30)
-  updatedAt   DateTime    @updatedAt
-  group       ExpenseGroup?      @relation(fields: [groupId], references: [id])
-  user        User        @relation(fields: [userId], references: [id])
+  amount      Float         @db.Float
+  groupId     String?       @db.VarChar(30)
+  updatedAt   DateTime      @updatedAt
+  group       ExpenseGroup? @relation(fields: [groupId], references: [id])
+  user        User?         @relation(fields: [userId], references: [id])
   partitionExpenses  PartitionExpense[]
 
   @@index([userId,groupId])
@@ -121,7 +121,7 @@ model PartitionExpense {
   expenseId String   @db.VarChar(30)
   userId    String   @db.VarChar(30)
   amount    Float    @db.Float
-  expense   Expense  @relation(fields: [expenseId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  expense   Expense  @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  user      User?    @relation(fields: [userId], references: [id])
   updatedAt DateTime @updatedAt
 }

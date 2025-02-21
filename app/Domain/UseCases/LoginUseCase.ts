@@ -1,6 +1,6 @@
-import { IUserRepository } from "../Repositories/IUserRepository";
-import { User } from "../Models/User";
-import { IUseCase,IParams } from "./IUseCase";
+import { IUserRepository } from "@domain/Repositories/IUserRepository";
+import { User } from "@domain/Models/User";
+import { IUseCase,IParams } from "@domain/UseCases/IUseCase";
 
 export class LogInUseCaseNextAuth implements IUseCase<LogInParams,User> {
   constructor(private repository: IUserRepository<User>) {}

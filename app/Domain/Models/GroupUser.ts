@@ -1,5 +1,5 @@
-import { GroupUserDTO } from "../../Data/DTOs/GroupUserDTO";
-import { IModel } from "./IModel";
+import { GroupUserDTO } from "@data/DTOs/GroupUserDTO";
+import { IModel } from "@domain/Models/IModel";
 
 export class GroupUser implements IModel<GroupUserDTO> {
   constructor(

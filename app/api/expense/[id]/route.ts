@@ -2,15 +2,15 @@
 import { NextResponse } from "next/server";
 
 // RepositoryImpls
-import { ExpenseRepositoryImpl } from "../../../Data/Repositories/ExpenseRepositoryImpl.ts";
+import { ExpenseRepositoryImpl } from "@data/Repositories/ExpenseRepositoryImpl.ts";
 
 // Model
-import { Expense } from "../../Domain/Models/Expense.ts";
+import { Expense } from "@domain/Models/Expense.ts";
 
 // UseCases and Params
-import { GetExpenseByIdUseCase, GetExpenseByIdParams } from "../../../Domain/UseCases/Expense/GetExpenseByIdUseCase.ts";
-import { UpdateExpenseUseCase, UpdateExpenseParams } from "../../../Domain/UseCases/Expense/UpdateExpenseUseCase.ts";
-import { DeleteExpenseUseCase, DeleteExpenseParams } from "../../../Domain/UseCases/Expense/DeleteExpenseUseCase.ts";
+import { GetExpenseByIdUseCase, GetExpenseByIdParams } from "@domain/UseCases/Expense/GetExpenseByIdUseCase.ts";
+import { UpdateExpenseUseCase, UpdateExpenseParams } from "@domain/UseCases/Expense/UpdateExpenseUseCase.ts";
+import { DeleteExpenseUseCase, DeleteExpenseParams } from "@domain/UseCases/Expense/DeleteExpenseUseCase.ts";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   const { id } = await params;

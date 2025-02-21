@@ -1,11 +1,9 @@
-import { prisma } from "../../../prisma";
-import { PartitionDTO } from "../DTOs/PartitionDTO";
-import { IDataSource } from "./IDataSource";
-import { GetDBSettings, IDBSettings } from "../../Services/GetDBSettings";
+import { prisma } from "@/prisma";
+import { PartitionDTO } from "@data/DTOs/PartitionDTO";
+import { IDataSource } from "@data/DataSources/IDataSource";
 
 export class PartitionDataSourceMariaDB implements IDataSource<ExpenseDTO>{
   private static instance: PartitionDataSourceMariaDB;
-  private id: number = 0;
   private table;
 
   private constructor() {

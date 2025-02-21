@@ -2,13 +2,13 @@
 import { NextResponse } from "next/server";
 
 // RepositoryImpl
-import { UserRepositoryNextAuthImpl } from "../../../Data/Repositories/UserRepositoryNextAuthImpl";
+import { UserRepositoryNextAuthImpl } from "@data/Repositories/UserRepositoryNextAuthImpl";
 
 // Model
-import { User } from "../../../Domain/Models/User";
+import { User } from "@domain/Models/User";
 
 // UseCase and Params
-import { CreateUserUseCase, CreateUserParams } from "../../../Domain/UseCases/User/CreateUserUseCase";
+import { CreateUserUseCase, CreateUserParams } from "@domain/UseCases/User/CreateUserUseCase";
 
 export async function POST(req: Request) {
   const repository: UserRepositoryNextAuthImpl = UserRepositoryNextAuthImpl.getInstance();

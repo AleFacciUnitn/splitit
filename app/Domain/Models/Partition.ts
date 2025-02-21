@@ -1,5 +1,5 @@
-import { PartitionDTO } from "../../Data/PartitionDTO";
-import { IModel } from "./IModel";
+import { PartitionDTO } from "@data/PartitionDTO";
+import { IModel } from "@domain/Models/IModel";
 
 export class Partition implements IModel {
   constructor(

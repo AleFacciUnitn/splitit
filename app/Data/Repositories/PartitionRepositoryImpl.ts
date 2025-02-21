@@ -1,8 +1,8 @@
-import { IPartitionRepository } from "../../Domain/Repositories/IPartitionRepository";
-import { Partition } from "../../Domain/Models/Partition";
-import { BaseRepository } from "./RepositoryImpl";
-import { PartitionDataSourceMariaDB } from "../DataSources/PartitionDataSourceMariaDB";
-import { PartitionDTO } from "../DTOs/PartitionDTO";
+import { IPartitionRepository } from "@domain/Repositories/IPartitionRepository";
+import { Partition } from "@domain/Models/Partition";
+import { BaseRepository } from "@data/Repositories/RepositoryImpl";
+import { PartitionDataSourceMariaDB } from "@data/DataSources/PartitionDataSourceMariaDB";
+import { PartitionDTO } from "@data/DTOs/PartitionDTO";
 
 export class PartitionRepositoryImpl extends RepositoryImpl<Partition, PartitionDTO> implements IPartitionRepository<Partition> {
   private static instance: PartitionRepositoryImpl;

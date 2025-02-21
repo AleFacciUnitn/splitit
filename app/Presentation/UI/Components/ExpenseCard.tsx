@@ -1,4 +1,4 @@
-import { Expense } from "../../../Domain/Models/Expense";
+import { Expense } from "@domain/Models/Expense";
 import {
   Card,
   CardContent,

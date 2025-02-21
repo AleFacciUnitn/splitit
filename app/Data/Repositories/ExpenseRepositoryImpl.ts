@@ -1,8 +1,8 @@
-import { Expense } from "../../Domain/Models/Expense";
-import { IExpenseRepository } from "../../Domain/Repositories/IExpenseRepository";
-import { ExpenseDataSourceMariaDB } from "../DataSources/ExpenseDataSourceMariaDB";
-import { ExpenseDTO } from "../DTOs/ExpenseDTO";
-import { RepositoryImpl } from "./RepositoryImpl";
+import { Expense } from "@domain/Models/Expense";
+import { IExpenseRepository } from "@domain/Repositories/IExpenseRepository";
+import { ExpenseDataSourceMariaDB } from "@data/DataSources/ExpenseDataSourceMariaDB";
+import { ExpenseDTO } from "@data/DTOs/ExpenseDTO";
+import { RepositoryImpl } from "@data/Repositories/RepositoryImpl";
 
 export class ExpenseRepositoryImpl extends RepositoryImpl<Expense, ExpenseDTO> implements IExpenseRepository<Expense>{
   private static instance: ExpenseRepositoryImpl;

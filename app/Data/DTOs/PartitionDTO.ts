@@ -1,4 +1,4 @@
-import { IDTO } from "./IDTO";
+import { IDTO } from "@data/DTOs/IDTO";
 
 export interface PartitionDTO extends IDTO {
   id: string;

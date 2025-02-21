@@ -1,6 +1,6 @@
-import { IExpenseRepository } from "../../Repositories/IExpenseRepository";
-import { Expense } from "../../Models/Expense";
-import { IUseCase,IParams } from "../IUseCase";
+import { IExpenseRepository } from "@domain/Repositories/IExpenseRepository";
+import { Expense } from "@domain/Models/Expense";
+import { IUseCase,IParams } from "@domain/UseCases/IUseCase";
 
 export class GetExpensesByUserIdUseCase implements IUseCase<GetExpensesByUserIdParams,Expense[] | null> {
   constructor(private repository: IExpenseRepository<Expense>) {}

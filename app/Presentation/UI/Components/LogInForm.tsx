@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import authenticate from "../../../Services/LogIn";
+import authenticate from "@services/LogIn";
 
 export default function LogInForm() {
   const router = useRouter();

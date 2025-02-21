@@ -1,5 +1,5 @@
-import { ExpenseDTO } from "../../Data/DTOs/ExpenseDTO";
-import { IModel } from "./IModel";
+import { ExpenseDTO } from "@data/DTOs/ExpenseDTO";
+import { IModel } from "@domain/Models/IModel";
 
 export class Expense implements IModel<ExpenseDTO> {
   constructor(

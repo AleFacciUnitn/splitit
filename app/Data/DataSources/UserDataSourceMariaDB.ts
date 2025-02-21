@@ -1,8 +1,7 @@
-import { prisma } from "../../../prisma";
-import { UserDTO } from "../DTOs/ExpenseDTO";
-import { IDataSource } from "./IDataSource";
-import { GetDBSettings, IDBSettings } from "../../Services/GetDBSettings";
-import { AuthServices } from "../../Services/AuthServices";
+import { prisma } from "@/prisma";
+import { UserDTO } from "@data/DTOs/ExpenseDTO";
+import { IDataSource } from "@data/DataSources/IDataSource";
+import { AuthServices } from "@services/AuthServices";
 
 export class UserDataSourceMariaDB implements IDataSource<UserDTO>{
   private static instance: UserDataSourceMariaDB;

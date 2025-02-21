@@ -1,7 +1,7 @@
-import { Group } from "../../Domain/Models/Group";
-import { GroupDataSourceMariaDB } from "../DataSources/GroupDataSourceMariaDB";
-import { GroupDTO } from "../DTOs/GroupDTO";
-import { RepositoryImpl } from "./RepositoryImpl";
+import { Group } from "@domain/Models/Group";
+import { GroupDataSourceMariaDB } from "@data/DataSources/GroupDataSourceMariaDB";
+import { GroupDTO } from "@data/DTOs/GroupDTO";
+import { RepositoryImpl } from "@data/Repositories/RepositoryImpl";
 
 export class GroupRepositoryImpl extends RepositoryImpl<Group, GroupDTO>{
   private static instance: GroupRepositoryImpl;

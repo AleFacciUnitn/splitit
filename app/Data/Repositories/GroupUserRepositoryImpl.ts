@@ -1,8 +1,8 @@
-import { GroupUser } from "../../Domain/Models/GroupUser";
-import { IGroupUserRepository } from "../../Domain/Repositories/IGroupUserRepository";
-import { GroupUserDataSourceMariaDB } from "../DataSources/GroupUserDataSourceMariaDB";
-import { GroupUserDTO } from "../DTOs/GroupUserDTO";
-import { RepositoryImpl } from "./RepositoryImpl";
+import { GroupUser } from "@domain/Models/GroupUser";
+import { IGroupUserRepository } from "@domain/Repositories/IGroupUserRepository";
+import { GroupUserDataSourceMariaDB } from "@data/DataSources/GroupUserDataSourceMariaDB";
+import { GroupUserDTO } from "@data/DTOs/GroupUserDTO";
+import { RepositoryImpl } from "@data/Repositories/RepositoryImpl";
 
 export class GroupUserRepositoryImpl extends RepositoryImpl<GroupUser, GroupUserDTO> implements IGroupUserRepository<GroupUser>{
   private static instance: GroupRepositoryImpl;

@@ -1,7 +1,7 @@
-import { UserDTO } from "../DTOs/UserDTO";
-import { IDataSource } from "./IDataSource";
-import { UserNotFoundError } from "../../Core/Error/UserNotFoundError";
-import { AuthServices } from "../../Services/AuthServices";
+import { UserDTO } from "@data/DTOs/UserDTO";
+import { IDataSource } from "@data/DataSources/IDataSource";
+import { UserNotFoundError } from "@core/Error/UserNotFoundError";
+import { AuthServices } from "@services/AuthServices";
 
 export class UserDataSourceLocal implements IDataSource<UserDTO>{
   private static instance: UserDataSourceLocal = new UserDataSourceLocal();

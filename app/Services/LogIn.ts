@@ -1,6 +1,6 @@
 "use server";
-import { signIn, signOut } from "../../auth";
 import { AuthError } from "next-auth";
+import { signIn, signOut } from "@/auth";
 
 export async function authenticate(prevState: string | undefined, formData: FormData) {
   console.log("=====================AUTHENTICATE LOG=======================\n\n");

@@ -3,16 +3,16 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 
 // RepositoryImpls
-import { ExpenseRepositoryImpl } from "../../Data/Repositories/ExpenseRepositoryImpl";
+import { ExpenseRepositoryImpl } from "@data/Repositories/ExpenseRepositoryImpl";
 
 // Models
-import { Expense } from "../../Domain/Models/Expense";
+import { Expense } from "@domain/Models/Expense";
 
 // UseCases and Params
-import { GetExpensesUseCase } from "../../Domain/UseCases/Expense/GetExpensesUseCase";
-import { GetExpensesByUserIdUseCase, GetExpensesByUserIdParams } from "../../Domain/UseCases/Expense/GetExpensesByUserIdUseCase";
-import { CreateExpenseUseCase, CreateExpenseParams } from "../../Domain/UseCases/Expense/CreateExpenseUseCase";
-import { NoParams } from "../../Domain/UseCases/IUseCase";
+import { GetExpensesUseCase } from "@domain/UseCases/Expense/GetExpensesUseCase";
+import { GetExpensesByUserIdUseCase, GetExpensesByUserIdParams } from "@domain/UseCases/Expense/GetExpensesByUserIdUseCase";
+import { CreateExpenseUseCase, CreateExpenseParams } from "@domain/UseCases/Expense/CreateExpenseUseCase";
+import { NoParams } from "@domain/UseCases/IUseCase";
 
 export async function GET() {
   const headerList = await headers();

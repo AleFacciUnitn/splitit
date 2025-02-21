@@ -1,5 +1,5 @@
 import Container from "@mui/material/Container";
-import LogInForm from "../Components/LogInForm";
+import LogInForm from "@ui/Components/LogInForm";
 
 export default function LogInPage() {
   return (

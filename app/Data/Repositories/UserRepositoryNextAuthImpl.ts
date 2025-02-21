@@ -1,9 +1,9 @@
-import { IUserRepository } from "../../Domain/Repositories/IUserRepository";
-import { User } from "../../Domain/Models/User";
-import { RepositoryImpl } from "./RepositoryImpl";
-import { UserDataSourceMariaDB } from "../DataSources/UserDataSourceMariaDB";
-import { UserDTO } from "../DTOs/UserDTO";
-import { AuthServices } from "../../Services/AuthServices";
+import { IUserRepository } from "@domain/Repositories/IUserRepository";
+import { User } from "@domain/Models/User";
+import { RepositoryImpl } from "@data/Repositories/RepositoryImpl";
+import { UserDataSourceMariaDB } from "@data/DataSources/UserDataSourceMariaDB";
+import { UserDTO } from "@data/DTOs/UserDTO";
+import { AuthServices } from "@services/AuthServices";
 
 export class UserRepositoryNextAuthImpl extends RepositoryImpl<User, UserDTO> implements IUserRepository<User> {
   private static instance: UserRepositoryNextAuthImpl;

@@ -1,6 +1,6 @@
-import { IRepository } from "../../Repositories/IRepository";
-import { User } from "../../Models/User";
-import { IUseCase, IParams } from "../IUseCase";
+import { IRepository } from "@domain/Repositories/IRepository";
+import { User } from "@domain/Models/User";
+import { IUseCase, IParams } from "@domain/UseCases/IUseCase";
 
 export class UpdateUserUseCase implements IUseCase<UpdateUserParams,User | null> {
   constructor(private repository: IRepository<User>) {}

@@ -1,6 +1,7 @@
-import { UserDTO } from "../../Data/DTOs/UserDTO";
+import { UserDTO } from "@data/DTOs/UserDTO";
+import { IModel } from "@domain/Models/IModel";
 
-export class User {
+export class User implements IModel<UserDTO>{
   constructor(
     public id: string,
     public name?: string,

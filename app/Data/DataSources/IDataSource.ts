@@ -1,4 +1,4 @@
-import { IDTO } from "../DTOs/IDTO";
+import { IDTO } from "@data/DTOs/IDTO";
 
 export interface IDataSource<IDTO> {
   static async fetchAll(): Promise<IDTO[]>;

@@ -1,8 +1,6 @@
-import { prisma } from "../../../prisma";
-import { ExpenseDTO } from "../DTOs/ExpenseDTO";
-import { IDataSource } from "./IDataSource";
-import { GetDBSettings, IDBSettings } from "../../Services/GetDBSettings";
-import { ExpenseNotFoundError } from "../../Core/Error/ExpenseNotFoundError";
+import { prisma } from "@/prisma";
+import { ExpenseDTO } from "@data/DTOs/ExpenseDTO";
+import { IDataSource } from "@data/DataSources/IDataSource";
 
 export class ExpenseDataSourceMariaDB implements IDataSource<ExpenseDTO>{
   private static instance: ExpenseDataSourceMariaDB;
@@ -21,7 +19,7 @@ export class ExpenseDataSourceMariaDB implements IDataSource<ExpenseDTO>{
   }
 
   async fetchAll(): Promise<ExpenseDTO[]> {
-    return this.table.findMany();
+    return this.table.findMany({orderBy: {date: "desc"}});
   }
 
   async fetchById(id: string): Promise<ExpenseDTO> {
@@ -29,7 +27,7 @@ export class ExpenseDataSourceMariaDB implements IDataSource<ExpenseDTO>{
   }
 
   async fetchByUserId(userId: string): Promise<ExpenseDTO[]> {
-    return this.table.findMany({where: { userId }});
+    return this.table.findMany({where: { userId }, orderBy: {date: "desc"}});
   }
 
   async fetchByGroupId(groupId: string): Promise<ExpenseDTO[]> {

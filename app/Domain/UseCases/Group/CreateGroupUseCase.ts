@@ -1,6 +1,6 @@
-import { IRepository } from "../../Repositories/IRepository";
-import { Group } from "../../Models/Group";
-import { IUseCase, IParams } from "../IUseCase";
+import { IRepository } from "@domain/Repositories/IRepository";
+import { Group } from "@domain/Models/Group";
+import { IUseCase, IParams } from "@domain/UseCases/IUseCase";
 
 export class CreateGroupUseCase implements IUseCase<CreateGroupParams,Group> {
   constructor(private repository: IRepository<Group>) {}

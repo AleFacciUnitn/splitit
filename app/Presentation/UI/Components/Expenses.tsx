@@ -7,12 +7,12 @@ import Container from "@mui/material/Container";
 import Fab from "@mui/material/Fab";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
-import ExpenseCard from "../Components/ExpenseCard";
+import ExpenseCard from "@ui/Components/ExpenseCard";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import dayjs, { Dayjs } from 'dayjs';
-import ExpenseFormDialog from "../Components/ExpenseFormDialog";
-import { Expense } from "../../../Domain/Models/Expense";
+import ExpenseFormDialog from "@ui/Components/ExpenseFormDialog";
+import { Expense } from "@domain/Models/Expense";
 
 export default function Expenses({groups}) {
   const apiEndpoint: string = "/api/expense";

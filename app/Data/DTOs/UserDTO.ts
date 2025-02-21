@@ -1,4 +1,4 @@
-import { IDTO } from "./IDTO";
+import { IDTO } from "@data/DTOs/IDTO";
 
 export interface ExpenseDTO extends IDTO {
   id: string;

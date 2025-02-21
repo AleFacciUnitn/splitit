@@ -1,6 +1,6 @@
-import { IGroupUserRepository } from "../../Repositories/IGroupUserRepository";
-import { GroupUser } from "../../Models/GroupUser";
-import { IUseCase,IParams } from "../IUseCase";
+import { IGroupUserRepository } from "@domain/Repositories/IGroupUserRepository";
+import { GroupUser } from "@domain/Models/GroupUser";
+import { IUseCase,IParams } from "@domain/UseCases/IUseCase";
 
 export class GetGroupUsersByUserIdUseCase implements IUseCase<GetGroupUsersByUserIdParams,GroupUser[] | null> {
   constructor(private repository: IGroupUserRepository<GroupUser>) {}

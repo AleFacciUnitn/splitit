@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { providerMap } from "../../auth.config";
-import { signIn } from "../../auth";
+import { providerMap } from "@/auth.config";
+import { signIn } from "@/auth";
 
 export default async function SignUpPage() {
   return (

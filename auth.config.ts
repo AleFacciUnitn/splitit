@@ -1,8 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
-import { UserRepositoryNextAuthImpl } from "./app/Data/Repositories/UserRepositoryNextAuthImpl";
-import { LogInUseCaseNextAuth, LogInParams } from "./app/Domain/UseCases/LoginUseCase";
-import { User } from "./app/Domain/Models/User";
+import { UserRepositoryNextAuthImpl } from "@data/Repositories/UserRepositoryNextAuthImpl";
+import { LogInUseCaseNextAuth, LogInParams } from "@domain/UseCases/LoginUseCase";
+import { User } from "@domain/Models/User";
 
 const repository = UserRepositoryNextAuthImpl.getInstance();
 

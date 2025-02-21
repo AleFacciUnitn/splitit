@@ -1,6 +1,6 @@
-import { ExpenseDTO } from "../DTOs/ExpenseDTO";
-import { IDataSource } from "./IDataSource";
-import { ExpenseNotFoundError } from "../../Core/Error/ExpenseNotFoundError";
+import { ExpenseDTO } from "@data/DTOs/ExpenseDTO";
+import { IDataSource } from "@data/DataSources/IDataSource";
+import { ExpenseNotFoundError } from "@core/Error/ExpenseNotFoundError";
 
 export class ExpenseDataSourceLocal implements IDataSource<ExpenseDTO>{
   private static instance: ExpenseDataSourceLocal;

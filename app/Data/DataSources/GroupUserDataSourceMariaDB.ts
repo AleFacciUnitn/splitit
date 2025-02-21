@@ -1,6 +1,6 @@
-import { prisma } from "../../../prisma";
-import { GroupUserDTO } from "../DTOs/GroupUserDTO";
-import { IDataSource } from "./IDataSource";
+import { prisma } from "@/prisma";
+import { GroupUserDTO } from "@data/DTOs/GroupUserDTO";
+import { IDataSource } from "@data/DataSources/IDataSource";
 
 export class GroupUserDataSourceMariaDB implements IDataSource<GroupUserDTO>{
   private static instance: GroupUserDataSourceMariaDB;
