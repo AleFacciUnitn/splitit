@@ -29,6 +29,10 @@ export class GroupUserDataSourceMariaDB implements IDataSource<GroupUserDTO>{
     return this.table.findMany({where: { userId }});
   }
 
+  async fetchByGroupId(groupId: string): Promise<GroupUserDTO[]> {
+    return this.table.findMany({where: { groupId }});
+  }
+
   async create(item: GroupUserDTO): Promise<GroupUserDTO> {
     console.log(item);
     return this.table.create({

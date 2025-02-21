@@ -33,8 +33,16 @@ export class PartitionDataSourceMariaDB implements IDataSource<ExpenseDTO>{
     return this.table.findMany({where: { expenseId }});
   }
 
-  async create(item: PartitionDTO: Promise<PartitionDTO> {
-    console.log(item);
+  async create(item: PartitionDTO): Promise<PartitionDTO> {
+    if (item.groupId === null) {
+      return this.table.create({
+        data: {
+	  userId: item.userId,
+	  expenseId: item.expenseId,
+	  amount: item.amount
+	}
+      });
+    }
     return this.table.create({
       data: {
         userId: item.userId,

@@ -1,4 +1,4 @@
-import { PartitionDTO } from "@data/PartitionDTO";
+import { PartitionDTO } from "@data/DTOs/PartitionDTO";
 import { IModel } from "@domain/Models/IModel";
 
 export class Partition implements IModel {
@@ -6,12 +6,13 @@ export class Partition implements IModel {
     public id: string,
     public expenseId: string,
     public userId: string,
+    public groupId: string | null,
     public amount: number,
-    public updatedAt: Date,
+    public updatedAt: Date = new Date(),
   ) {}
 
-  public parseDTO(): PartitionDTO {
-    return {...this}
+  public serializeDTO(): PartitionDTO {
+    return {...this};
   }
 
   public static parseDTO(dto: PartitionDTO): Partition {
@@ -19,6 +20,7 @@ export class Partition implements IModel {
       dto.id,
       dto.expenseId,
       dto.userId,
+      dto.groupId,
       dto.amount,
       dto.updatedAt
     );

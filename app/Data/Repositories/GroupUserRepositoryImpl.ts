@@ -25,4 +25,8 @@ export class GroupUserRepositoryImpl extends RepositoryImpl<GroupUser, GroupUser
   async fetchByUserId(id: string): Promise<GroupUser[] | null> {
     return this.dataSource.fetchByUserId(id);
   }
+
+  async fetchByGroupId(id: string): Promise<GroupUser[] | null> {
+    return this.dataSource.fetchByGroupId(id);
+  }
 }

@@ -1,6 +1,6 @@
 import { IPartitionRepository } from "@domain/Repositories/IPartitionRepository";
 import { Partition } from "@domain/Models/Partition";
-import { BaseRepository } from "@data/Repositories/RepositoryImpl";
+import { RepositoryImpl } from "@data/Repositories/RepositoryImpl";
 import { PartitionDataSourceMariaDB } from "@data/DataSources/PartitionDataSourceMariaDB";
 import { PartitionDTO } from "@data/DTOs/PartitionDTO";
 
