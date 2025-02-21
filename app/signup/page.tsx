@@ -38,6 +38,7 @@ export default async function SignUpPage() {
                 key={provider.id}
                 action={async (formData) => {
                   "use server";
+		try {
 		  if (provider.id === "credentials") {
 		    const email = formData.get("email");
 		    const password = formData.get("password");
@@ -65,6 +66,24 @@ export default async function SignUpPage() {
                     });
                   } else {
                     await signIn(provider.id, { redirectTo: "/" });
+                  }
+		} catch (error) {
+                    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+                      throw error;
+                    }
+                    if (error instanceof AuthError) {
+                      return {
+                        error:
+                          error.type === 'CredentialsSignin'
+                          ? 'Invalid credentials.'
+                          : 'An error with Auth.js occurred.',
+                        type: error.type,
+                      };
+                    }
+                    return {
+                      error: 'Something went wrong.',
+                      type: 'UnknownError',
+                    };
                   }
                 }}
               >

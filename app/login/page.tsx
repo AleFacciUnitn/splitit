@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { providerMap } from "@/auth.config";
 import { signIn } from "@/auth";
+import { AuthError } from 'next-auth';
 
 export default async function SignInPage() {
   return (
@@ -38,14 +39,33 @@ export default async function SignInPage() {
                 key={provider.id}
                 action={async (formData) => {
                   "use server";
-		  if (provider.id === "credentials") {
-                    await signIn(provider.id, {
-                      redirectTo: "/",
-		      password: formData.get("password"),
-		      email: formData.get("email")
-                    });
-                  } else {
-                    await signIn(provider.id, { redirectTo: "/" });
+		  try {
+		    if (provider.id === "credentials") {
+                      await signIn(provider.id, {
+                        redirectTo: "/",
+		        password: formData.get("password"),
+		        email: formData.get("email")
+                      });
+                    } else {
+                      await signIn(provider.id, { redirectTo: "/" });
+                    }
+		  } catch (error) {
+                    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+                      throw error;
+                    }
+                    if (error instanceof AuthError) {
+                      return {
+                        error:
+                          error.type === 'CredentialsSignin'
+                          ? 'Invalid credentials.'
+                          : 'An error with Auth.js occurred.',
+                        type: error.type,
+                      };
+                    }
+                    return {
+                      error: 'Something went wrong.',
+                      type: 'UnknownError',
+                    };
                   }
                 }}
               >

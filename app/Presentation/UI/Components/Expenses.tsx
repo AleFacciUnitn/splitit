@@ -93,7 +93,7 @@ export default function Expenses({groups}) {
           <RefreshIcon/>
         </IconButton>
       </Container>
-      <Container className="max-h-full grow overflow-y-scroll">
+      <Container className="max-h-full grow overflow-y-auto">
         <List>
           {expenses?.map((expense, index) => <ListItem key={index}>
             <ExpenseCard expense={expense} />

@@ -37,12 +37,7 @@ export default function HomePage() {
   }, [groups, session]);
 
   return (
-    <Container className="flex flex-col h-screen overflow-hidden">
-      <Container className="flex w-full flex-none">
-        <IconButton className="self-end" color="primary" onClick={async () => {
-	  await logOut();
-        }}><LogoutIcon/></IconButton>
-      </Container>
+    <Container className="flex flex-col h-full overflow-hidden">
       <Expenses groups={groups}/>
     </Container>
   );
