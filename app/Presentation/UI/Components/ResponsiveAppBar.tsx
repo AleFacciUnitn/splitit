@@ -1,5 +1,6 @@
 "use client";
 import * as React from 'react';
+import { useRouter } from "next/navigation";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,10 +16,11 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {logOut} from "@services/LogIn";
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = [{name: 'Profile', action: () => {}}, {name: 'Account', action: () => {}}, {name: 'Dashboard', action: () => {}}, {name: 'Logout', action: logOut}];
-
 function ResponsiveAppBar() {
+  const router = useRouter();
+
+  const pages = [{name: 'Group', action: () => router.push("/dashboard/group")}];
+  const settings = [{name: 'Logout', action: logOut}];
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -38,17 +40,17 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+    <AppBar position="static" className="flex-none md:h-screen top-0 left-0 bottom-0 py-4" sx={{width: "5rem"}}>
+      <Container className="grow">
+        <Toolbar className="flex flex-col h-full justify-between items-center" disableGutters>
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }}} />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            onClick={() => router.push("/dashboard")}
+	    className="cursor-pointer"
             sx={{
-              mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -60,9 +62,8 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box className="flex flex-col items-start" sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
             <IconButton
-              size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -88,8 +89,11 @@ function ResponsiveAppBar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <MenuItem key={page.name} className="max-h-4" onClick={() => {
+		  page.action();
+		  handleCloseNavMenu();
+		}}>
+                  <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -116,11 +120,15 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name}
+                onClick={() => {
+		  page.action();
+		  handleCloseNavMenu();
+		}}
+		className="max-h-8"
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -147,7 +155,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={async () => {
+                <MenuItem key={setting.name} className="max-h-4" onClick={async () => {
 		  setting.action();
 		  handleCloseUserMenu();
 		}}>

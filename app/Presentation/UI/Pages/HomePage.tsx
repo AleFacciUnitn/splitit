@@ -10,7 +10,7 @@ import { logOut } from "@services/LogIn";
 import { signOut } from "@/auth.ts";
 
 export default function HomePage() {
-  const { data: session, status} = useSession({ required: true });
+  const { data: session, status} = useSession();
   const [groups, setGroups] = useState();
 
   const fetchGroups = () => {
@@ -37,7 +37,7 @@ export default function HomePage() {
   }, [groups, session]);
 
   return (
-    <Container className="flex flex-col h-full overflow-hidden">
+    <Container className="flex flex-col lg:flex-row h-full overflow-hidden">
       <Expenses groups={groups}/>
     </Container>
   );

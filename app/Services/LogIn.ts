@@ -6,9 +6,11 @@ export async function authenticate(prevState: string | undefined, formData: Form
   console.log("=====================AUTHENTICATE LOG=======================\n\n");
   console.log(formData);
   await signIn("credentials", formData);
+  window.location.reload();
   console.log("\n\n============================================================");
 }
 
 export async function logOut() {
   await signOut();
+  window.location.reload();
 }

@@ -60,12 +60,12 @@ export default async function SignUpPage() {
 		      }).then((res) => console.log(res))
 		      .catch((e) => console.error(e));
                     await signIn(provider.id, {
-                      redirectTo: "/",
+                      redirectTo: "/dashboard",
 		      password,
 		      email
                     });
                   } else {
-                    await signIn(provider.id, { redirectTo: "/" });
+                    await signIn(provider.id, { redirectTo: "/dashboard" });
                   }
 		} catch (error) {
                     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {

@@ -37,7 +37,8 @@ export class GroupUserDataSourceMariaDB implements IDataSource<GroupUserDTO>{
     console.log(item);
     return this.table.create({
       data: {
-	date: item.name,
+	groupId: item.groupId,
+	userId: item.userId,
       },
     })
   }

@@ -29,7 +29,7 @@ export class GroupDataSourceMariaDB implements IDataSource<GroupDTO>{
     console.log(item);
     return this.table.create({
       data: {
-	date: item.name,
+	name: item.name,
       },
     })
   }

@@ -43,8 +43,8 @@ export default {
     async redirect({ url, baseUrl }){
       return baseUrl;
     },
-    async session({ session, token, user }) {
-      session.user = token.user;
+    async session({ session, token }) {
+      session.user = token.user as any;
       return session;
     },
     async jwt({ token, user, trigger, session }) {

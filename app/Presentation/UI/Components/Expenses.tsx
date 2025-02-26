@@ -16,7 +16,7 @@ import { Expense } from "@domain/Models/Expense";
 
 export default function Expenses({groups}) {
   const apiEndpoint: string = "/api/expense";
-  const { data: session, state } = useSession({ required: true });
+  const { data: session, state } = useSession();
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -80,14 +80,16 @@ export default function Expenses({groups}) {
       .catch((e) => console.error(e));
   }
 
+    console.log("ciao")
   useEffect(() => {
     if (expenses === null && session !== null && session) fetchExpenses();
+    if (session === null) window.location.reload()
   }, [expenses, session])
 
   if (expenses === null) return <CircularLoading />;
 
   return (
-    <Container className="relative self-center h-5/6 flex flex-col" sx={{marginBottom: "4rem"}}>
+    <Container className="relative self-center grow lg:h-full flex flex-col" sx={{marginBottom: "2rem", marginTop: "2rem"}}>
       <Container className="relative top-0 left-0">
         <IconButton color="primary" onClick={fetchExpenses} loading={refreshing}>
           <RefreshIcon/>
@@ -110,7 +112,7 @@ export default function Expenses({groups}) {
 	  setGroupId={setGroupId}
           />
       </Container>
-      <Container className="flex absolute bottom-0 left-0 justify-end p-14">
+      <Container className="flex absolute bottom-0 left-0 justify-end p-4">
         <Fab onClick={handleOpen}>
           <AddIcon/>
         </Fab>

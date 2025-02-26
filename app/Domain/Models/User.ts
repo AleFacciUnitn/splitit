@@ -29,4 +29,8 @@ export class User implements IModel<UserDTO>{
       dto.updatedAt
     );
   }
+
+  toString(): string {
+    return JSON.stringify(this);
+  }
 }

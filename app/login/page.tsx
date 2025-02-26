@@ -42,12 +42,13 @@ export default async function SignInPage() {
 		  try {
 		    if (provider.id === "credentials") {
                       await signIn(provider.id, {
-                        redirectTo: "/",
+                        redirectTo: "/dashboard",
 		        password: formData.get("password"),
 		        email: formData.get("email")
                       });
+		      window.location.reload();
                     } else {
-                      await signIn(provider.id, { redirectTo: "/" });
+                      await signIn(provider.id, { redirectTo: "/dashboard" });
                     }
 		  } catch (error) {
                     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
