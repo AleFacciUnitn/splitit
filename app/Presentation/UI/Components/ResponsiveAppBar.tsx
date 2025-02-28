@@ -14,13 +14,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {logOut} from "@services/LogIn";
+import { signOut } from "next-auth/react";
 
 function ResponsiveAppBar() {
   const router = useRouter();
 
   const pages = [{name: 'Group', action: () => router.push("/dashboard/group")}];
-  const settings = [{name: 'Logout', action: logOut}];
+  const settings = [{name: 'Logout', action: signOut}];
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 

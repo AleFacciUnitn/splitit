@@ -10,11 +10,12 @@ const providers: Provider[] = [
   CredentialsProvider({
       name: "credentials",
       credentials: {
-        email: { label: "Email", type: "email"},
-        password: { label: "Password", type: "password"}
+        email: { label: "email", type: "email"},
+        password: { label: "password", type: "password"}
       },
       async authorize(credentials) {
 	const useCase = new LogInUseCaseNextAuth(repository);
+	console.log(credentials);
 	const { email, password } = credentials;
 	const user: User = await useCase.execute(new LogInParams(email,password));
 	console.log("=========================AUTHORIZE LOG===========================\n\n");
@@ -41,7 +42,7 @@ export default {
   secret: "SECRET_KEY",
   callbacks: {
     async redirect({ url, baseUrl }){
-      return baseUrl;
+      return url;
     },
     async session({ session, token }) {
       session.user = token.user as any;
@@ -60,10 +61,10 @@ export default {
       console.log("\n\n=================================================================");
       const isLoggedIn = !!auth?.user;
 
-      const isOnProtected = !(nextUrl.pathname.startsWith("/login"));
+      const isOnProtected = (nextUrl.pathname.startsWith("/dashboard"));
 
       if (isOnProtected) return isLoggedIn;
-      if (isLoggedIn) return Response.redirect(new URL("/",nextUrl));
+      if (isLoggedIn) return Response.redirect(new URL("/dashboard",nextUrl));
       return true;
     }
   }

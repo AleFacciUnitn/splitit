@@ -1,8 +1,9 @@
+"use client";
 import Link from "next/link";
 import { providerMap } from "@/auth.config";
-import { signIn } from "@/auth";
+import { signIn } from "next-auth/react";
 
-export default async function SignUpPage() {
+export default function SignUpPage() {
   return (
     <div className="flex overflow-hidden relative w-full h-full">
       <img
@@ -36,8 +37,7 @@ export default async function SignUpPage() {
               <form
                 className="last-of-type:[&>div]:hidden"
                 key={provider.id}
-                action={async (formData) => {
-                  "use server";
+                action={(formData) => {
 		try {
 		  if (provider.id === "credentials") {
 		    const email = formData.get("email");
@@ -53,19 +53,19 @@ export default async function SignUpPage() {
 		      },
 		      body: rawUser,
 		    };
-		    await fetch("http://localhost:3000/api/auth/register",options)
+		    fetch("http://localhost:3000/api/auth/register",options)
 		      .then((response) => {
 			if (!response.ok) throw response;
 			return response.json();
 		      }).then((res) => console.log(res))
 		      .catch((e) => console.error(e));
-                    await signIn(provider.id, {
+                    signIn(provider.id, {
                       redirectTo: "/dashboard",
 		      password,
 		      email
                     });
                   } else {
-                    await signIn(provider.id, { redirectTo: "/dashboard" });
+                    signIn(provider.id, { redirectTo: "/dashboard" });
                   }
 		} catch (error) {
                     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {

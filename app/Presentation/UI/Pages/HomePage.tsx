@@ -6,8 +6,6 @@ import Expenses from "@ui/Components/Expenses";
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { logOut } from "@services/LogIn";
-import { signOut } from "@/auth.ts";
 
 export default function HomePage() {
   const { data: session, status} = useSession();

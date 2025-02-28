@@ -1,9 +1,10 @@
+"use client";
 import Link from "next/link";
 import { providerMap } from "@/auth.config";
-import { signIn } from "@/auth";
+import { signIn } from "next-auth/react"
 import { AuthError } from 'next-auth';
 
-export default async function SignInPage() {
+export default function SignInPage() {
   return (
     <div className="flex overflow-hidden relative w-full h-full select-none">
       <img
@@ -37,18 +38,12 @@ export default async function SignInPage() {
               <form
                 className="last-of-type:[&>div]:hidden"
                 key={provider.id}
-                action={async (formData) => {
-                  "use server";
+                action={(formData) => {
 		  try {
 		    if (provider.id === "credentials") {
-                      await signIn(provider.id, {
-                        redirectTo: "/dashboard",
-		        password: formData.get("password"),
-		        email: formData.get("email")
-                      });
-		      window.location.reload();
+                      signIn(provider.id, { redirectTo: "/dashboard", email: formData.get("email"), password: formData.get("password")});
                     } else {
-                      await signIn(provider.id, { redirectTo: "/dashboard" });
+                      signIn(provider.id, { redirectTo: "/dashboard" });
                     }
 		  } catch (error) {
                     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
