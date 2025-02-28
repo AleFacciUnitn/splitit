@@ -16,7 +16,7 @@ const providers: Provider[] = [
       async authorize(credentials) {
 	const useCase = new LogInUseCaseNextAuth(repository);
 	const { email, password } = credentials;
-	const user: User = await useCase.execute(new LogInParams(email,password)));
+	const user: User = await useCase.execute(new LogInParams(email,password));
 	console.log("=========================AUTHORIZE LOG===========================\n\n");
 	console.log(`email: ${email}`);
 	console.log(`password: ${password}`);

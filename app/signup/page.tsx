@@ -31,10 +31,10 @@ export default async function SignUpPage() {
             </svg>
             <span className="text-4xl font-medium text-white">Pied Piper</span>
           </h2>
-          <div className="flex flex-col gap-2 p-6 m-8 w-full bg-white rounded shadow-lg">
+          <div className="flex flex-col gap-2 p-6 m-8 w-full bg-white rounded-sm shadow-lg">
             {Object.values(providerMap).map((provider) => (
               <form
-                className="[&>div]:last-of-type:hidden"
+                className="last-of-type:[&>div]:hidden"
                 key={provider.id}
                 action={async (formData) => {
                   "use server";
@@ -115,7 +115,7 @@ export default async function SignUpPage() {
                 )}
                 <button
                   type="submit"
-                  className="flex justify-center items-center px-4 mt-2 space-x-2 w-full h-12 text-base font-light text-white rounded transition focus:ring-2 focus:ring-offset-2 focus:outline-none bg-zinc-800 hover:bg-zinc-900 focus:ring-zinc-800"
+                  className="flex justify-center items-center px-4 mt-2 space-x-2 w-full h-12 text-base font-light text-white rounded-sm transition focus:ring-2 focus:ring-offset-2 focus:outline-hidden bg-zinc-800 hover:bg-zinc-900 focus:ring-zinc-800"
                 >
                   <span>Sign in with {provider.name}</span>
                 </button>
