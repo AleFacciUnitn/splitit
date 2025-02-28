@@ -25,6 +25,7 @@ export default function Home(){
       headers: {
         "userId": session.user.id,
       },
+      cache: "force-cache",
     };
     fetch(apiEndpoint,options)
     .then((response) => {

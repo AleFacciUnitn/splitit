@@ -4,6 +4,61 @@ import { providerMap } from "@/auth.config";
 import { signIn } from "next-auth/react";
 
 export default function SignUpPage() {
+  const registerUser = (email, password) => {
+    const rawUser = JSON.stringify({
+      email,
+      password
+    });
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: rawUser,
+    };
+    fetch("http://localhost:3000/api/auth/register",options)
+      .then((response) => {
+        if (!response.ok) throw response;
+        return response.json();
+      })
+      .then((res) => console.log(res))
+      .catch((e) => console.error(e));    
+  }
+
+  const action = (formData, id) => {
+    try {
+      if (id === "credentials") {
+        const email = formData.get("email");
+        const password = formData.get("password");
+	registerUser(email, password);
+        signIn(id, {
+          redirectTo: "/dashboard",
+          password,
+          email
+        });
+      } else {
+        signIn(id, { redirectTo: "/dashboard" });
+      }
+    } catch (error) {
+      if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+        throw error;
+      }
+      if (error instanceof AuthError) {
+        return {
+	  error:
+	    error.type === 'CredentialsSignin'
+	    ? 'Invalid credentials.'
+	    : 'An error with Auth.js occurred.',
+	  type: error.type,
+        };
+      }
+      return {
+        error: 'Something went wrong.',
+        type: 'UnknownError',
+      };
+    }
+  }
+
   return (
     <div className="flex overflow-hidden relative w-full h-full">
       <img
@@ -37,55 +92,7 @@ export default function SignUpPage() {
               <form
                 className="last-of-type:[&>div]:hidden"
                 key={provider.id}
-                action={(formData) => {
-		try {
-		  if (provider.id === "credentials") {
-		    const email = formData.get("email");
-		    const password = formData.get("password");
-		    const rawUser = JSON.stringify({
-		      email,
-		      password
-		    });
-		    const options = {
-		      method: "POST",
-		      headers: {
-			"Content-Type": "application/json",
-		      },
-		      body: rawUser,
-		    };
-		    fetch("http://localhost:3000/api/auth/register",options)
-		      .then((response) => {
-			if (!response.ok) throw response;
-			return response.json();
-		      }).then((res) => console.log(res))
-		      .catch((e) => console.error(e));
-                    signIn(provider.id, {
-                      redirectTo: "/dashboard",
-		      password,
-		      email
-                    });
-                  } else {
-                    signIn(provider.id, { redirectTo: "/dashboard" });
-                  }
-		} catch (error) {
-                    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
-                      throw error;
-                    }
-                    if (error instanceof AuthError) {
-                      return {
-                        error:
-                          error.type === 'CredentialsSignin'
-                          ? 'Invalid credentials.'
-                          : 'An error with Auth.js occurred.',
-                        type: error.type,
-                      };
-                    }
-                    return {
-                      error: 'Something went wrong.',
-                      type: 'UnknownError',
-                    };
-                  }
-                }}
+                action={(formData) => action(formData,provider.id)}
               >
                 {provider.id === "credentials" && (
                   <>

@@ -14,19 +14,21 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function ExpenseFormDialog({
-	open, 
-	handleClose, 
-	date, 
-	setDate, 
-	createExpense, 
-	groups, 
-	groupId, 
-	setGroupId
-}: {open: boolean, handleClose: any, date: Dayjs, setDate: any, createExpense: any, groups: any, groupId: string | null, setGroupId: any}) {
+interface ExpenseFormProps {
+  open: boolean;
+  handleClose: any;
+  date: Dayjs;
+  setDate: any;
+  createExpense: any;
+  groups: any;
+  groupId?: string | null;
+  setGroupId: any;
+}
+
+export default function ExpenseFormDialog(props: ExpenseFormProps) {
   return <Dialog
-    open={open} 
-    onClose={handleClose}
+    open={props.open} 
+    onClose={props.handleClose}
     slotProps={{
       paper: {
         component: 'form',
@@ -46,10 +48,10 @@ export default function ExpenseFormDialog({
         <Select
           labelId="group-label"
           label="Group"
-          value={groupId}
-	  onChange={setGroupId}
+          value={props.groupId}
+	  onChange={props.setGroupId}
         >
-          {groups?.map((group) => <MenuItem value={group.id}>{group.name}</MenuItem>)}
+          {props.groups?.map((group) => <MenuItem value={group.id}>{group.name}</MenuItem>)}
         </Select>
       </FormControl>}
       <TextField
@@ -86,13 +88,13 @@ export default function ExpenseFormDialog({
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           maxDate={dayjs()}
-          value={date} 
-          onChange={setDate} 
+          value={props.date} 
+          onChange={props.setDate} 
           className="w-full"/>
       </LocalizationProvider>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handleClose}>Cancel</Button>
+      <Button onClick={props.handleClose}>Cancel</Button>
       <Button type="submit">Create</Button>
     </DialogActions>
   </Dialog>;

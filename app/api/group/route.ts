@@ -52,7 +52,7 @@ export async function POST(req: Request) {
   var newItem = new Group("1",name);
   const createdItem = await useCase.execute(new CreateGroupParams(newItem));
   console.log(createdItem);
-  newItem = new GroupUser(createdItem.id,userId);
+  newItem = new GroupUser(userId,createdItem.id);
   useCase = new CreateGroupUserUseCase(groupUserRepository);
   await useCase.execute(new CreateGroupUserParams(newItem));
   return NextResponse.json(createdItem, { status: 201 });

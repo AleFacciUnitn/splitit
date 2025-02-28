@@ -14,10 +14,12 @@ import dayjs, { Dayjs } from 'dayjs';
 import ExpenseFormDialog from "@ui/Components/ExpenseFormDialog";
 import { Expense } from "@domain/Models/Expense";
 
+export const revalidate = 60;
+
 export default function Expenses({groups}) {
   const apiEndpoint: string = "/api/expense";
   const { data: session, state } = useSession();
-  const [expenses, setExpenses] = useState<Expense[] | null>(null);
+  const [expenses, setExpenses] = useState<Expense[]>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [date, setDate] = useState<Dayjs>(dayjs());
@@ -32,11 +34,13 @@ export default function Expenses({groups}) {
 
   const fetchExpenses = () => {
     setRefreshing(true);
+    console.log(session);
     const options = {
       method: "GET",
       headers: {
         "userId": session.user.id,
       },
+      cache: "force-cache",
     };
     fetch(apiEndpoint,options)
     .then((response) => {
@@ -80,13 +84,11 @@ export default function Expenses({groups}) {
       .catch((e) => console.error(e));
   }
 
-    console.log("ciao")
   useEffect(() => {
-    if (expenses === null && session !== null && session) fetchExpenses();
-    if (session === null) window.location.reload()
+    if (!expenses && session) fetchExpenses();
   }, [expenses, session])
 
-  if (expenses === null) return <CircularLoading />;
+  if (!expenses) return <CircularLoading />;
 
   return (
     <Container className="relative self-center grow lg:h-full flex flex-col" sx={{marginBottom: "2rem", marginTop: "2rem"}}>
@@ -97,7 +99,7 @@ export default function Expenses({groups}) {
       </Container>
       <Container className="max-h-full grow overflow-y-auto">
         <List>
-          {expenses?.map((expense, index) => <ListItem key={index}>
+          {expenses?.map((expense, index) => <ListItem key={expense.id}>
             <ExpenseCard expense={expense} />
           </ListItem>)}
         </List>

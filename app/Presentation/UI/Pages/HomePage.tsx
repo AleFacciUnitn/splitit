@@ -7,6 +7,8 @@ import Expenses from "@ui/Components/Expenses";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
+export const revalidate = 60;
+
 export default function HomePage() {
   const { data: session, status} = useSession();
   const [groups, setGroups] = useState();
@@ -17,6 +19,7 @@ export default function HomePage() {
       headers: {
         "userId": session.user.id,
       },
+      cache: "force-cache",
     };
     fetch("/api/group",options)
     .then((response) => {

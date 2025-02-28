@@ -16,7 +16,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { signOut } from "next-auth/react";
 
-function ResponsiveAppBar() {
+export default function ResponsiveAppBar() {
+  const LOGO: string = "SPLITIT";
   const router = useRouter();
 
   const pages = [{name: 'Group', action: () => router.push("/dashboard/group")}];
@@ -40,7 +41,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" className="flex-none md:h-screen top-0 left-0 bottom-0 py-4" sx={{width: "5rem"}}>
+    <AppBar position="static" className="flex-none md:h-screen top-0 left-0 bottom-0 py-4" sx={{width: "7rem"}}>
       <Container className="grow">
         <Toolbar className="flex flex-col h-full justify-between items-center" disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }}} />
@@ -54,12 +55,12 @@ function ResponsiveAppBar() {
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            LOGO
+	  {LOGO}
           </Typography>
 
           <Box className="flex flex-col items-start" sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
@@ -115,7 +116,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+	  {LOGO}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -135,7 +136,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -169,5 +170,3 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
-

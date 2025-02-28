@@ -5,6 +5,33 @@ import { signIn } from "next-auth/react"
 import { AuthError } from 'next-auth';
 
 export default function SignInPage() {
+  const action = (formData,id) => {
+    try {
+      if (id === "credentials") {
+        signIn(id, { redirectTo: "/dashboard", email: formData.get("email"), password: formData.get("password")});
+      } else {
+        signIn(id, { redirectTo: "/dashboard" });
+      }
+    } catch (error) {
+      if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+        throw error;
+      }
+      if (error instanceof AuthError) {
+        return {
+          error:
+            error.type === 'CredentialsSignin'
+            ? 'Invalid credentials.'
+            : 'An error with Auth.js occurred.',
+          type: error.type,
+        };
+      }
+      return {
+        error: 'Something went wrong.',
+        type: 'UnknownError',
+      };
+    }
+  }
+
   return (
     <div className="flex overflow-hidden relative w-full h-full select-none">
       <img
@@ -38,32 +65,7 @@ export default function SignInPage() {
               <form
                 className="last-of-type:[&>div]:hidden"
                 key={provider.id}
-                action={(formData) => {
-		  try {
-		    if (provider.id === "credentials") {
-                      signIn(provider.id, { redirectTo: "/dashboard", email: formData.get("email"), password: formData.get("password")});
-                    } else {
-                      signIn(provider.id, { redirectTo: "/dashboard" });
-                    }
-		  } catch (error) {
-                    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
-                      throw error;
-                    }
-                    if (error instanceof AuthError) {
-                      return {
-                        error:
-                          error.type === 'CredentialsSignin'
-                          ? 'Invalid credentials.'
-                          : 'An error with Auth.js occurred.',
-                        type: error.type,
-                      };
-                    }
-                    return {
-                      error: 'Something went wrong.',
-                      type: 'UnknownError',
-                    };
-                  }
-                }}
+                action={(formData) => action(formData,provider.id)}
               >
                 {provider.id === "credentials" && (
                   <>
@@ -106,7 +108,10 @@ export default function SignInPage() {
                 </div>
               </form>
             ))}
-	    <p className="text-sm text-black text-center">Don't have an account? <Link href="/signup" className="cursor-pointer font-bold">Sign up</Link></p>
+	    <p className="text-sm text-black text-center">
+	      Don't have an account? 
+	      <Link href="/signup" className="cursor-pointer font-bold">Sign up</Link>
+	    </p>
           </div>
         </div>
       </div>
