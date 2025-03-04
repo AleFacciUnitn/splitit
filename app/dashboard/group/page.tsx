@@ -1,17 +1,21 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
+import Card from "@mui/material/Card";
 import AddIcon from "@mui/icons-material/Add";
 import GroupFormDialog from "@ui/Components/GroupFormDialog";
+import { Group } from "@domain/Models/Group";
+import List from "@ui/Components/List";
 
 export default function Home(){
   const apiEndpoint: string = "/api/group";
+  const rootRef = useRef();
   const [open, setOpen] = useState<boolean>(false);
-  const [groups, setGroups] = useState();
+  const [groups, setGroups] = useState<Group>();
+  const [divHeight, setDivHeight] = useState<number>(0);
   const {data: session, state} = useSession();
 
   const handleClose = () => {
@@ -66,19 +70,27 @@ export default function Home(){
   }
 
   useEffect(() => {
+    if(rootRef.current) setDivHeight(rootRef.current.clientHeight);
     if(!groups && session) fetchGroups();
   },[groups,session]);
 
+  const Row = ({index, style}) => {
+    return <Card className="my-4 w-full">{groups[index].name}</Card>
+  }
+
   return (
-    <Container>
-      <Container className="flex grow justify-between my-4">
+    <Container className="flex flex-col">
+      <Container className="flex flex-none justify-between my-4">
         <Typography variant="h3">Group</Typography>
 	<IconButton onClick={handleOpen}><AddIcon color="primary"/></IconButton>
       </Container>
-      <List>
-        {groups?.map((group) => group.name)}
-      </List>
-      <GroupFormDialog open={open} handleClose={handleClose} createGroup={createGroup}/>
+      <Container className="w-full grow" ref={rootRef}>
+        <List
+	  height={divHeight}
+	  items={groups}
+	  Row={Row}/>
+        <GroupFormDialog open={open} handleClose={handleClose} createGroup={createGroup}/>
+      </Container>
     </Container>
   );
 }

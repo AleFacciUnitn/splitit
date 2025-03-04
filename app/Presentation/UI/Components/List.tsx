@@ -7,6 +7,7 @@ export default function List({items, height, Row}) {
 
   return (
     <VariableSizeList
+      className="scrollbar"
       itemCount={items?.length}
       height={height}
       itemSize={index => rowSizes[index] + 32}>

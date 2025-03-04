@@ -25,7 +25,7 @@ export default function Expenses({groups}) {
   const [open, setOpen] = useState<boolean>(false);
   const [date, setDate] = useState<Dayjs>(dayjs());
   const [groupId, setGroupId] = useState<string>("");
-  const [divHeight, setDivHeight] = useState(0);
+  const [divHeight, setDivHeight] = useState<number>(0);
   const rootRef = useRef(null);
 
   const handleClose = () => {
@@ -65,18 +65,17 @@ export default function Expenses({groups}) {
   if (refreshing) return <CircularLoading />;
 
   const Row = ({index, style}) => {
-    console.log(index);
     return <ExpenseCard expense={expenses[index]}/>
   }
 
   return (
-    <Container className="relative self-center grow lg:h-full flex flex-col" sx={{marginBottom: "2rem", marginTop: "2rem"}}>
-      <Container className="relative top-0 left-0">
+    <Container className="relative self-center grow h-full flex flex-col">
+      <Container className="my-4">
         <IconButton color="primary" onClick={fetchExpenses} loading={refreshing}>
           <RefreshIcon/>
         </IconButton>
       </Container>
-      <Container ref={rootRef} className="max-h-full grow overflow-y-auto">
+      <Container ref={rootRef} className="grow overflow-y-auto my-4">
         <List
 	  height={divHeight}
 	  items={expenses}
