@@ -37,6 +37,8 @@ export default function HomePage() {
     console.log(groups);
   }, [groups, session]);
 
+  if (!groups) return "Loading...";
+
   return (
     <Container className="flex flex-col lg:flex-row h-full overflow-hidden">
       <Expenses groups={groups}/>

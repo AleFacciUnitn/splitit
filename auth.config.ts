@@ -62,9 +62,10 @@ export default {
       const isLoggedIn = !!auth?.user;
 
       const isOnProtected = (nextUrl.pathname.startsWith("/dashboard"));
+      const isOnApi = (nextUrl.pathname.startsWith("/api"));
 
       if (isOnProtected) return isLoggedIn;
-      if (isLoggedIn) return Response.redirect(new URL("/dashboard",nextUrl));
+      if (isLoggedIn && !isOnApi) return Response.redirect(new URL("/dashboard",nextUrl));
       return true;
     }
   }

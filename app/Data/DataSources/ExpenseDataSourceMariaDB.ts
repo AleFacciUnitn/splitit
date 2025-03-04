@@ -1,4 +1,5 @@
 import { prisma } from "@/prisma";
+import { Prisma } from '@prisma/client';
 import { ExpenseDTO } from "@data/DTOs/ExpenseDTO";
 import { IDataSource } from "@data/DataSources/IDataSource";
 
@@ -42,7 +43,7 @@ export class ExpenseDataSourceMariaDB implements IDataSource<ExpenseDTO>{
 	description: item.description,
 	category: item.category,
 	amount: item.amount,
-	groupId: item.groupId
+	groupId: item.groupId != null ? item.groupId : Prisma.skip
       },
     })
   }

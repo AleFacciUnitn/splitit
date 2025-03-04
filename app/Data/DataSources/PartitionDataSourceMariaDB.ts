@@ -1,4 +1,5 @@
 import { prisma } from "@/prisma";
+import { Prisma } from '@prisma/client';
 import { PartitionDTO } from "@data/DTOs/PartitionDTO";
 import { IDataSource } from "@data/DataSources/IDataSource";
 
@@ -34,20 +35,11 @@ export class PartitionDataSourceMariaDB implements IDataSource<ExpenseDTO>{
   }
 
   async create(item: PartitionDTO): Promise<PartitionDTO> {
-    if (item.groupId === null) {
-      return this.table.create({
-        data: {
-	  userId: item.userId,
-	  expenseId: item.expenseId,
-	  amount: item.amount
-	}
-      });
-    }
     return this.table.create({
       data: {
         userId: item.userId,
 	expenseId: item.expenseId,
-	groupId: item.groupId,
+	groupId: item.groupId !== null ? item.groupId : Prisma.skip,
 	amount: item.amount
       },
     })

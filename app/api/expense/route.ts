@@ -46,9 +46,9 @@ async function getExpensesByUserId(userId: string) {
 export async function POST(req: Request) {
   const createExpenseUseCase = new CreateExpenseUseCase(expenseRepository);
   const { id, userId, groupId, date, description, category, amount} = await req.json();
-  const newExpense = new Expense(id,userId,date,description,category,amount,groupId);
+  const newExpense = new Expense(id,userId,date,description,category,amount,(groupId === "" ? null : groupId));
   const createdExpense = await createExpenseUseCase.execute(new CreateExpenseParams(newExpense));
-  await createPartition(groupId,userId,amount,createdExpense.id);
+  await createPartition((groupId === "" ? null : groupId),userId,amount,createdExpense.id);
   return NextResponse.json(createdExpense, { status: 201 });
 }
 

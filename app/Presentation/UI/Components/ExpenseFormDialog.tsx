@@ -19,13 +19,44 @@ interface ExpenseFormProps {
   handleClose: any;
   date: Dayjs;
   setDate: any;
-  createExpense: any;
   groups: any;
-  groupId?: string | null;
+  groupId: string;
   setGroupId: any;
+  session: any;
+  apiEndpoint: string;
 }
 
 export default function ExpenseFormDialog(props: ExpenseFormProps) {
+  const createExpense = (formJson: Object) => {
+    const description: string = formJson.description;
+    const category: string = formJson.category;
+    const amount: number = parseFloat(formJson.amount);
+    const newExpense = JSON.stringify({
+      id: "1",
+      userId: props.session.user.id,
+      date: props.date.format(),
+      description,
+      category,
+      amount,
+      groupId: props.groupId
+    });
+    console.log(newExpense);
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: newExpense,
+    };
+    fetch(props.apiEndpoint,options)
+      .then((response) => {
+        if (!response.ok) throw response;
+        props.handleClose();
+	props.refresh();
+      })
+      .catch((e) => console.error(e));
+  }
+
   return <Dialog
     open={props.open} 
     onClose={props.handleClose}
@@ -42,7 +73,7 @@ export default function ExpenseFormDialog(props: ExpenseFormProps) {
     }}>
     <DialogTitle>New Expense</DialogTitle>
     <DialogContent style={{paddingTop: "5px"}}>
-      {groups.length !== 0 &&
+      {props.groups.length !== 0 &&
       <FormControl fullWidth>
         <InputLabel id="group-label">Group</InputLabel>
         <Select
